@@ -1,0 +1,38 @@
+services:
+  # 백엔드 API 서버
+  - type: web
+    name: smart-voice-guard-api
+    runtime: python3
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd backend && python main.py
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
+      - key: PORT
+        value: 8000
+      - key: DEBUG
+        value: false
+    healthCheckPath: /health
+
+  # 프론트엔드 웹앱
+  - type: web
+    name: smart-voice-guard-frontend
+    runtime: node
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/build
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: 18.17.0
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # PostgreSQL 데이터베이스 (90일 무료)
+  - type: pserv
+    name: smart-voice-guard-db
+    databaseName: smart_voice_guard
+    user: smart_voice_guard_user
+    plan: free

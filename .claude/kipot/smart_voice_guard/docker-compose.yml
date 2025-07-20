@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  # Smart Voice Guard 프론트엔드
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://api:8000
+    depends_on:
+      - api
+    restart: unless-stopped
+
   # Smart Voice Guard API 서버
   api:
     build: .

@@ -52,10 +52,16 @@ async def health_check():
 
 # 서버 실행 함수
 if __name__ == "__main__":
+    import os
     logger.info("Smart Voice Guard 서버를 시작합니다...")
+    
+    # Render에서는 PORT 환경변수 사용
+    port = int(os.environ.get("PORT", 8000))
+    host = "0.0.0.0"  # Render에서는 모든 인터페이스에 바인딩
+    
     uvicorn.run(
         "main:app",
-        host="127.0.0.1",  # 로컬 주소
-        port=8000,         # 포트 번호
-        reload=True        # 코드 변경시 자동 재시작
+        host=host,
+        port=port,
+        reload=False  # 프로덕션에서는 reload 비활성화
     )
