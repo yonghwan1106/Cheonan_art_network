@@ -78,186 +78,395 @@ const Dashboard: React.FC = () => {
   const firstPlantPredictions = predictions.length > 0 ? predictions[0].hourlyPredictions : [];
 
   return (
-    <Container maxWidth="xl">
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h4" gutterBottom>
-          실시간 대시보드
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          마지막 업데이트: {currentTime.toLocaleTimeString('ko-KR')}
-        </Typography>
+    <Container maxWidth="xl" className="fade-in">
+      {/* Header Section with Gradient Background */}
+      <Box 
+        sx={{ 
+          background: 'linear-gradient(135deg, #00C851 0%, #00BCD4 100%)',
+          borderRadius: 4,
+          p: 4,
+          mb: 4,
+          color: 'white',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+        className="slide-up"
+      >
+        <Box 
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '300px',
+            height: '300px',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+            borderRadius: '50%',
+            transform: 'translate(100px, -100px)',
+          }}
+        />
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box>
+            <Typography variant="h3" gutterBottom sx={{ fontWeight: 700, color: 'white' }}>
+              🌱 실시간 대시보드
+            </Typography>
+            <Typography variant="h6" sx={{ opacity: 0.9, color: 'white' }}>
+              탄소중립 플랫폼 - 실시간 모니터링
+            </Typography>
+          </Box>
+          <Box textAlign="right">
+            <Typography variant="body2" sx={{ opacity: 0.8, color: 'white' }}>
+              마지막 업데이트
+            </Typography>
+            <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+              {currentTime.toLocaleTimeString('ko-KR')}
+            </Typography>
+          </Box>
+        </Box>
       </Box>
       
-      <Grid container spacing={3}>
-        {/* 실시간 지표 카드들 */}
-        <Grid item xs={12} sm={6} md={3}>
-          <Card>
-            <CardContent>
-              <Box display="flex" alignItems="center">
-                <TrendingUpIcon color="primary" sx={{ mr: 2 }} />
+      {/* Stats Cards Grid */}
+      <Box display="flex" flexWrap="wrap" gap={3} mb={4} className="slide-up">
+        {/* 현재 탄소배출량 카드 */}
+        <Box flex="1 1 280px" minWidth="280px">
+          <Card className="hover-lift" sx={{ 
+            background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+            border: '1px solid rgba(0, 200, 81, 0.1)',
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Box>
-                  <Typography color="textSecondary" gutterBottom>
+                  <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontWeight: 500 }}>
                     현재 탄소배출량
                   </Typography>
-                  <Typography variant="h4">
+                  <Typography variant="h4" sx={{ fontWeight: 700, color: '#F44336' }}>
                     {currentEmission.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                     tCO2/h
                   </Typography>
                 </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={3}>
-          <Card>
-            <CardContent>
-              <Box display="flex" alignItems="center">
-                <EcoIcon color="success" sx={{ mr: 2 }} />
-                <Box>
-                  <Typography color="textSecondary" gutterBottom>
-                    청정전력 비율
-                  </Typography>
-                  <Typography variant="h4">
-                    {cleanPowerRatio.toFixed(0)}%
-                  </Typography>
-                  <Typography variant="body2" color="success.main">
-                    실시간 기준
-                  </Typography>
+                <Box 
+                  sx={{ 
+                    background: 'linear-gradient(135deg, #F44336 0%, #E57373 100%)',
+                    borderRadius: 3,
+                    p: 2,
+                    color: 'white',
+                  }}
+                >
+                  <TrendingUpIcon sx={{ fontSize: 40 }} />
                 </Box>
               </Box>
             </CardContent>
           </Card>
-        </Grid>
+        </Box>
 
-        <Grid item xs={12} sm={6} md={3}>
-          <Card>
-            <CardContent>
-              <Box display="flex" alignItems="center">
-                <BusinessIcon color="secondary" sx={{ mr: 2 }} />
+        {/* 청정전력 비율 카드 */}
+        <Box flex="1 1 280px" minWidth="280px">
+          <Card className="hover-lift" sx={{ 
+            background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+            border: '1px solid rgba(76, 175, 80, 0.1)',
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Box>
-                  <Typography color="textSecondary" gutterBottom>
+                  <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontWeight: 500 }}>
+                    청정전력 비율
+                  </Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 700, color: '#4CAF50' }}>
+                    {cleanPowerRatio.toFixed(0)}%
+                  </Typography>
+                  <Chip 
+                    label="실시간 기준"
+                    color="success"
+                    size="small"
+                    sx={{ mt: 1, fontWeight: 600 }}
+                  />
+                </Box>
+                <Box 
+                  sx={{ 
+                    background: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+                    borderRadius: 3,
+                    p: 2,
+                    color: 'white',
+                  }}
+                >
+                  <EcoIcon sx={{ fontSize: 40 }} />
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+
+        {/* 진행 중인 매칭 카드 */}
+        <Box flex="1 1 280px" minWidth="280px">
+          <Card className="hover-lift" sx={{ 
+            background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+            border: '1px solid rgba(0, 188, 212, 0.1)',
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
+                <Box>
+                  <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontWeight: 500 }}>
                     진행 중인 매칭
                   </Typography>
-                  <Typography variant="h4">
+                  <Typography variant="h4" sx={{ fontWeight: 700, color: '#00BCD4' }}>
                     {activeMatchings}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                     건
                   </Typography>
                 </Box>
+                <Box 
+                  sx={{ 
+                    background: 'linear-gradient(135deg, #00BCD4 0%, #33D4E6 100%)',
+                    borderRadius: 3,
+                    p: 2,
+                    color: 'white',
+                  }}
+                >
+                  <BusinessIcon sx={{ fontSize: 40 }} />
+                </Box>
               </Box>
             </CardContent>
           </Card>
-        </Grid>
+        </Box>
 
-        <Grid item xs={12} sm={6} md={3}>
-          <Card>
-            <CardContent>
-              <Box display="flex" alignItems="center">
-                <CertificateIcon color="warning" sx={{ mr: 2 }} />
+        {/* 발급된 인증서 카드 */}
+        <Box flex="1 1 280px" minWidth="280px">
+          <Card className="hover-lift" sx={{ 
+            background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+            border: '1px solid rgba(255, 152, 0, 0.1)',
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
                 <Box>
-                  <Typography color="textSecondary" gutterBottom>
+                  <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontWeight: 500 }}>
                     발급된 인증서
                   </Typography>
-                  <Typography variant="h4">
+                  <Typography variant="h4" sx={{ fontWeight: 700, color: '#FF9800' }}>
                     {totalCertificates}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                     개
                   </Typography>
                 </Box>
+                <Box 
+                  sx={{ 
+                    background: 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)',
+                    borderRadius: 3,
+                    p: 2,
+                    color: 'white',
+                  }}
+                >
+                  <CertificateIcon sx={{ fontSize: 40 }} />
+                </Box>
               </Box>
             </CardContent>
           </Card>
-        </Grid>
+        </Box>
+      </Box>
 
-        {/* 차트 영역 */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              24시간 탄소집약도 예측
-            </Typography>
-            <Box sx={{ height: 400 }}>
-              {firstPlantPredictions.length > 0 ? (
-                <CarbonIntensityChart data={firstPlantPredictions} />
-              ) : (
-                <Box display="flex" alignItems="center" justifyContent="center" height="100%">
-                  <CircularProgress />
-                </Box>
-              )}
+      {/* Charts Section */}
+      <Box display="flex" flexDirection="column" gap={4} className="slide-up">
+        {/* 24시간 탄소집약도 예측 차트 */}
+        <Paper sx={{ 
+          p: 4, 
+          background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+          border: '1px solid rgba(0, 0, 0, 0.04)',
+          borderRadius: 4
+        }} className="hover-lift">
+          <Box display="flex" alignItems="center" gap={2} mb={3}>
+            <Box 
+              sx={{ 
+                background: 'linear-gradient(135deg, #2196F3 0%, #64B5F6 100%)',
+                borderRadius: 2,
+                p: 1.5,
+                color: 'white',
+              }}
+            >
+              <TrendingUpIcon sx={{ fontSize: 28 }} />
             </Box>
-          </Paper>
-        </Grid>
-
-        {/* 발전소 현황 */}
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              발전소 현재 출력
-            </Typography>
-            <Box sx={{ height: 350 }}>
-              {plants.length > 0 ? (
-                <EmissionChart powerPlants={plants} />
-              ) : (
-                <Box display="flex" alignItems="center" justifyContent="center" height="100%">
-                  <CircularProgress />
-                </Box>
-              )}
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 700, color: '#2196F3' }}>
+                📈 24시간 탄소집약도 예측
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                AI 기반 탄소집약도 예측 분석
+              </Typography>
             </Box>
-          </Paper>
-        </Grid>
+          </Box>
+          <Box sx={{ height: 400, position: 'relative' }}>
+            {firstPlantPredictions.length > 0 ? (
+              <CarbonIntensityChart data={firstPlantPredictions} />
+            ) : (
+              <Box display="flex" alignItems="center" justifyContent="center" height="100%">
+                <CircularProgress size={60} color="primary" />
+              </Box>
+            )}
+          </Box>
+        </Paper>
 
-        {/* 발전소 상태 목록 */}
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              발전소 상태
-            </Typography>
-            <List sx={{ maxHeight: 350, overflow: 'auto' }}>
-              {plants.map((plant, index) => (
-                <React.Fragment key={plant.id}>
-                  <ListItem>
-                    <ListItemIcon>
-                      <PowerIcon color={plant.status === 'operating' ? 'success' : 'disabled'} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Box display="flex" alignItems="center" gap={1}>
-                          <Typography variant="body2" fontWeight="bold">
-                            {plant.name}
-                          </Typography>
-                          <Chip 
-                            label={plant.type.toUpperCase()} 
-                            size="small" 
-                            color={plant.type === 'renewable' ? 'success' : plant.type === 'lng' ? 'primary' : 'default'}
-                          />
+        {/* 발전소 현황 및 상태 */}
+        <Box display="flex" flexWrap="wrap" gap={4}>
+          {/* 발전소 현재 출력 차트 */}
+          <Box flex="2 1 500px" minWidth="500px">
+            <Paper sx={{ 
+              p: 4,
+              background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+              border: '1px solid rgba(0, 0, 0, 0.04)',
+              borderRadius: 4,
+              height: '100%'
+            }} className="hover-lift">
+              <Box display="flex" alignItems="center" gap={2} mb={3}>
+                <Box 
+                  sx={{ 
+                    background: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+                    borderRadius: 2,
+                    p: 1.5,
+                    color: 'white',
+                  }}
+                >
+                  <BusinessIcon sx={{ fontSize: 28 }} />
+                </Box>
+                <Box>
+                  <Typography variant="h5" sx={{ fontWeight: 700, color: '#4CAF50' }}>
+                    ⚡ 발전소 현재 출력
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                    전체 발전소 실시간 출력 현황
+                  </Typography>
+                </Box>
+              </Box>
+              <Box sx={{ height: 350, position: 'relative' }}>
+                {plants.length > 0 ? (
+                  <EmissionChart powerPlants={plants} />
+                ) : (
+                  <Box display="flex" alignItems="center" justifyContent="center" height="100%">
+                    <CircularProgress size={60} color="success" />
+                  </Box>
+                )}
+              </Box>
+            </Paper>
+          </Box>
+
+          {/* 발전소 상태 목록 */}
+          <Box flex="1 1 350px" minWidth="350px">
+            <Paper sx={{ 
+              p: 4,
+              background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
+              border: '1px solid rgba(0, 0, 0, 0.04)',
+              borderRadius: 4,
+              height: '100%'
+            }} className="hover-lift">
+              <Box display="flex" alignItems="center" gap={2} mb={3}>
+                <Box 
+                  sx={{ 
+                    background: 'linear-gradient(135deg, #FF9800 0%, #FFB74D 100%)',
+                    borderRadius: 2,
+                    p: 1.5,
+                    color: 'white',
+                  }}
+                >
+                  <PowerIcon sx={{ fontSize: 28 }} />
+                </Box>
+                <Box>
+                  <Typography variant="h5" sx={{ fontWeight: 700, color: '#FF9800' }}>
+                    🏭 발전소 상태
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                    실시간 운영 현황
+                  </Typography>
+                </Box>
+              </Box>
+              <List sx={{ 
+                maxHeight: 350, 
+                overflow: 'auto',
+                '& .MuiListItem-root': {
+                  borderRadius: 2,
+                  mb: 1,
+                  transition: 'background-color 0.2s ease',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 200, 81, 0.04)',
+                  }
+                }
+              }}>
+                {plants.map((plant, index) => (
+                  <React.Fragment key={plant.id}>
+                    <ListItem sx={{ px: 2, py: 1.5 }}>
+                      <ListItemIcon>
+                        <Box
+                          sx={{
+                            background: plant.status === 'operating' 
+                              ? 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)'
+                              : '#9E9E9E',
+                            borderRadius: '50%',
+                            p: 1,
+                            color: 'white',
+                          }}
+                        >
+                          <PowerIcon sx={{ fontSize: 20 }} />
                         </Box>
-                      }
-                      secondary={
-                        <Box>
-                          <Typography variant="caption" display="block">
-                            <LocationIcon fontSize="inherit" /> {plant.location}
-                          </Typography>
-                          <Typography variant="caption" display="block">
-                            출력: {plant.currentOutput}MW / {plant.capacity}MW ({((plant.currentOutput / plant.capacity) * 100).toFixed(1)}%)
-                          </Typography>
-                          <Typography variant="caption" display="block">
-                            효율: {plant.efficiency}% | 배출계수: {plant.emissionFactor}
-                          </Typography>
-                        </Box>
-                      }
-                    />
-                  </ListItem>
-                  {index < plants.length - 1 && <Divider />}
-                </React.Fragment>
-              ))}
-            </List>
-          </Paper>
-        </Grid>
-      </Grid>
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          <Box display="flex" alignItems="center" gap={1} mb={0.5}>
+                            <Typography variant="body1" sx={{ fontWeight: 700, color: '#333' }}>
+                              {plant.name}
+                            </Typography>
+                            <Chip 
+                              label={plant.type.toUpperCase()} 
+                              size="small" 
+                              sx={{
+                                backgroundColor: plant.type === 'renewable' ? '#E8F5E8' : 
+                                               plant.type === 'lng' ? '#E3F2FD' : '#F5F5F5',
+                                color: plant.type === 'renewable' ? '#2E7D32' : 
+                                       plant.type === 'lng' ? '#1565C0' : '#666',
+                                fontWeight: 600,
+                                fontSize: '0.75rem'
+                              }}
+                            />
+                          </Box>
+                        }
+                        secondary={
+                          <Box>
+                            <Typography variant="caption" display="block" sx={{ 
+                              color: '#666', 
+                              fontWeight: 500,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 0.5,
+                              mb: 0.5
+                            }}>
+                              <LocationIcon sx={{ fontSize: 14 }} /> {plant.location}
+                            </Typography>
+                            <Box sx={{ mb: 0.5 }}>
+                              <Typography variant="caption" sx={{ color: '#333', fontWeight: 600 }}>
+                                출력: {plant.currentOutput}MW / {plant.capacity}MW
+                              </Typography>
+                              <Typography variant="caption" sx={{ 
+                                ml: 1, 
+                                color: ((plant.currentOutput / plant.capacity) * 100) > 80 ? '#4CAF50' : 
+                                       ((plant.currentOutput / plant.capacity) * 100) > 50 ? '#FF9800' : '#F44336',
+                                fontWeight: 600
+                              }}>
+                                ({((plant.currentOutput / plant.capacity) * 100).toFixed(1)}%)
+                              </Typography>
+                            </Box>
+                            <Typography variant="caption" display="block" sx={{ color: '#666' }}>
+                              효율: {plant.efficiency}% | 배출계수: {plant.emissionFactor}
+                            </Typography>
+                          </Box>
+                        }
+                      />
+                    </ListItem>
+                    {index < plants.length - 1 && <Divider sx={{ mx: 2 }} />}
+                  </React.Fragment>
+                ))}
+              </List>
+            </Paper>
+          </Box>
+        </Box>
+      </Box>
     </Container>
   );
 };
