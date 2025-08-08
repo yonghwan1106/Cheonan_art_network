@@ -333,3 +333,32 @@ export function isLocalStorageAvailable(): boolean {
     return false;
   }
 }
+
+// === Auth Storage Functions (for AuthContext compatibility) ===
+
+interface AuthData {
+  user: User;
+  token: string;
+}
+
+/**
+ * 인증 데이터 저장
+ */
+export function setStoredAuth(authData: AuthData): boolean {
+  return safeSetItem('auth-data', authData);
+}
+
+/**
+ * 인증 데이터 조회
+ */
+export function getStoredAuth(): AuthData | null {
+  const authData = localStorage.getItem('auth-data');
+  return safeJsonParse(authData, null);
+}
+
+/**
+ * 인증 데이터 삭제
+ */
+export function removeStoredAuth(): void {
+  localStorage.removeItem('auth-data');
+}
