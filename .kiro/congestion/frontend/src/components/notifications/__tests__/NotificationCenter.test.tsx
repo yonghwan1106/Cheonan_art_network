@@ -14,4 +14,215 @@ jest.mock('lucide-react', () => ({
   Settings: () => <div data-testid="settings-icon" />,
   Trash2: () => <div data-testid="trash-icon" />,
   CheckCheck: () => <div data-testid="check-check-icon" />
-}));\n\ndescribe('NotificationCenter', () => {\n  const defaultProps = {\n    isOpen: true,\n    onClose: jest.fn(),\n    onNotificationClick: jest.fn(),\n    onSettingsClick: jest.fn()\n  };\n\n  beforeEach(() => {\n    jest.clearAllMocks();\n  });\n\n  it('renders notification center when open', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    expect(screen.getByText('알림')).toBeInTheDocument();\n    expect(screen.getByText('전체')).toBeInTheDocument();\n    expect(screen.getByText('읽지 않음')).toBeInTheDocument();\n    expect(screen.getByText('교통')).toBeInTheDocument();\n    expect(screen.getByText('일정')).toBeInTheDocument();\n  });\n\n  it('does not render when closed', () => {\n    render(<NotificationCenter {...defaultProps} isOpen={false} />);\n    \n    expect(screen.queryByText('알림')).not.toBeInTheDocument();\n  });\n\n  it('shows loading state initially', () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    expect(screen.getByText('로딩 중...')).toBeInTheDocument();\n  });\n\n  it('displays mock notifications after loading', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n      expect(screen.getByText('경로 최적화 제안')).toBeInTheDocument();\n      expect(screen.getByText('출발 시간 알림')).toBeInTheDocument();\n      expect(screen.getByText('포인트 적립')).toBeInTheDocument();\n      expect(screen.getByText('시스템 점검 안내')).toBeInTheDocument();\n    });\n  });\n\n  it('filters notifications by category', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n    });\n\n    // Click on traffic filter\n    fireEvent.click(screen.getByText('교통'));\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n      expect(screen.getByText('경로 최적화 제안')).toBeInTheDocument();\n      expect(screen.queryByText('포인트 적립')).not.toBeInTheDocument();\n    });\n  });\n\n  it('filters unread notifications', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n    });\n\n    // Click on unread filter\n    fireEvent.click(screen.getByText('읽지 않음'));\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n      expect(screen.getByText('경로 최적화 제안')).toBeInTheDocument();\n      expect(screen.queryByText('출발 시간 알림')).not.toBeInTheDocument(); // This one is read\n    });\n  });\n\n  it('marks notification as read when clicked', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n    });\n\n    const notification = screen.getByText('혼잡도 경고').closest('div');\n    fireEvent.click(notification!);\n    \n    expect(defaultProps.onNotificationClick).toHaveBeenCalled();\n  });\n\n  it('marks individual notification as read', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n    });\n\n    const checkButtons = screen.getAllByTestId('check-icon');\n    fireEvent.click(checkButtons[0].closest('button')!);\n    \n    // Notification should still be visible but marked as read\n    expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n  });\n\n  it('marks all notifications as read', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n    });\n\n    const markAllButton = screen.getByTestId('check-check-icon').closest('button');\n    fireEvent.click(markAllButton!);\n    \n    // All notifications should still be visible\n    expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n  });\n\n  it('deletes notification', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n    });\n\n    const deleteButtons = screen.getAllByTestId('trash-icon');\n    fireEvent.click(deleteButtons[0].closest('button')!);\n    \n    // Notification should be removed\n    await waitFor(() => {\n      expect(screen.queryByText('혼잡도 경고')).not.toBeInTheDocument();\n    });\n  });\n\n  it('calls onClose when backdrop is clicked', () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    const backdrop = document.querySelector('.fixed.inset-0.bg-black');\n    fireEvent.click(backdrop!);\n    \n    expect(defaultProps.onClose).toHaveBeenCalled();\n  });\n\n  it('calls onClose when X button is clicked', () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    const closeButton = screen.getByTestId('x-icon').closest('button');\n    fireEvent.click(closeButton!);\n    \n    expect(defaultProps.onClose).toHaveBeenCalled();\n  });\n\n  it('calls onSettingsClick when settings button is clicked', () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    const settingsButton = screen.getByTestId('settings-icon').closest('button');\n    fireEvent.click(settingsButton!);\n    \n    expect(defaultProps.onSettingsClick).toHaveBeenCalled();\n  });\n\n  it('displays correct time ago format', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('5분 전')).toBeInTheDocument();\n      expect(screen.getByText('15분 전')).toBeInTheDocument();\n      expect(screen.getByText('30분 전')).toBeInTheDocument();\n      expect(screen.getByText('1시간 전')).toBeInTheDocument();\n      expect(screen.getByText('2시간 전')).toBeInTheDocument();\n    });\n  });\n\n  it('shows empty state when no notifications match filter', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n    });\n\n    // Filter by reward category and then delete all reward notifications\n    fireEvent.click(screen.getByText('교통'));\n    \n    await waitFor(() => {\n      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();\n    });\n\n    // Delete all traffic notifications\n    const deleteButtons = screen.getAllByTestId('trash-icon');\n    deleteButtons.forEach(button => {\n      fireEvent.click(button.closest('button')!);\n    });\n\n    await waitFor(() => {\n      expect(screen.getByText('알림이 없습니다')).toBeInTheDocument();\n    });\n  });\n\n  it('displays notification stats correctly', async () => {\n    render(<NotificationCenter {...defaultProps} />);\n    \n    await waitFor(() => {\n      // Should show unread count badge\n      expect(screen.getByText('3')).toBeInTheDocument(); // 3 unread notifications\n    });\n  });\n});"
+}));
+
+describe('NotificationCenter', () => {
+  const defaultProps = {
+    isOpen: true,
+    onClose: jest.fn(),
+    onNotificationClick: jest.fn(),
+    onSettingsClick: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders notification center when open', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    expect(screen.getByText('알림')).toBeInTheDocument();
+    expect(screen.getByText('전체')).toBeInTheDocument();
+    expect(screen.getByText('읽지 않음')).toBeInTheDocument();
+    expect(screen.getByText('교통')).toBeInTheDocument();
+    expect(screen.getByText('일정')).toBeInTheDocument();
+  });
+
+  it('does not render when closed', () => {
+    render(<NotificationCenter {...defaultProps} isOpen={false} />);
+    
+    expect(screen.queryByText('알림')).not.toBeInTheDocument();
+  });
+
+  it('shows loading state initially', () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    expect(screen.getByText('로딩 중...')).toBeInTheDocument();
+  });
+
+  it('displays mock notifications after loading', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+      expect(screen.getByText('경로 최적화 제안')).toBeInTheDocument();
+      expect(screen.getByText('출발 시간 알림')).toBeInTheDocument();
+      expect(screen.getByText('포인트 적립')).toBeInTheDocument();
+      expect(screen.getByText('시스템 점검 안내')).toBeInTheDocument();
+    });
+  });
+
+  it('filters notifications by category', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+    });
+
+    // Click on traffic filter
+    fireEvent.click(screen.getByText('교통'));
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+      expect(screen.getByText('경로 최적화 제안')).toBeInTheDocument();
+      expect(screen.queryByText('포인트 적립')).not.toBeInTheDocument();
+    });
+  });
+
+  it('filters unread notifications', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+    });
+
+    // Click on unread filter
+    fireEvent.click(screen.getByText('읽지 않음'));
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+      expect(screen.getByText('경로 최적화 제안')).toBeInTheDocument();
+      expect(screen.queryByText('출발 시간 알림')).not.toBeInTheDocument(); // This one is read
+    });
+  });
+
+  it('marks notification as read when clicked', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+    });
+
+    const notification = screen.getByText('혼잡도 경고').closest('div');
+    fireEvent.click(notification!);
+    
+    expect(defaultProps.onNotificationClick).toHaveBeenCalled();
+  });
+
+  it('marks individual notification as read', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+    });
+
+    const checkButtons = screen.getAllByTestId('check-icon');
+    fireEvent.click(checkButtons[0].closest('button')!);
+    
+    // Notification should still be visible but marked as read
+    expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+  });
+
+  it('marks all notifications as read', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+    });
+
+    const markAllButton = screen.getByTestId('check-check-icon').closest('button');
+    fireEvent.click(markAllButton!);
+    
+    // All notifications should still be visible
+    expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+  });
+
+  it('deletes notification', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+    });
+
+    const deleteButtons = screen.getAllByTestId('trash-icon');
+    fireEvent.click(deleteButtons[0].closest('button')!);
+    
+    // Notification should be removed
+    await waitFor(() => {
+      expect(screen.queryByText('혼잡도 경고')).not.toBeInTheDocument();
+    });
+  });
+
+  it('calls onClose when backdrop is clicked', () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    const backdrop = document.querySelector('.fixed.inset-0.bg-black');
+    fireEvent.click(backdrop!);
+    
+    expect(defaultProps.onClose).toHaveBeenCalled();
+  });
+
+  it('calls onClose when X button is clicked', () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    const closeButton = screen.getByTestId('x-icon').closest('button');
+    fireEvent.click(closeButton!);
+    
+    expect(defaultProps.onClose).toHaveBeenCalled();
+  });
+
+  it('calls onSettingsClick when settings button is clicked', () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    const settingsButton = screen.getByTestId('settings-icon').closest('button');
+    fireEvent.click(settingsButton!);
+    
+    expect(defaultProps.onSettingsClick).toHaveBeenCalled();
+  });
+
+  it('displays correct time ago format', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('5분 전')).toBeInTheDocument();
+      expect(screen.getByText('15분 전')).toBeInTheDocument();
+      expect(screen.getByText('30분 전')).toBeInTheDocument();
+      expect(screen.getByText('1시간 전')).toBeInTheDocument();
+      expect(screen.getByText('2시간 전')).toBeInTheDocument();
+    });
+  });
+
+  it('shows empty state when no notifications match filter', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+    });
+
+    // Filter by reward category and then delete all reward notifications
+    fireEvent.click(screen.getByText('교통'));
+    
+    await waitFor(() => {
+      expect(screen.getByText('혼잡도 경고')).toBeInTheDocument();
+    });
+
+    // Delete all traffic notifications
+    const deleteButtons = screen.getAllByTestId('trash-icon');
+    deleteButtons.forEach(button => {
+      fireEvent.click(button.closest('button')!);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('알림이 없습니다')).toBeInTheDocument();
+    });
+  });
+
+  it('displays notification stats correctly', async () => {
+    render(<NotificationCenter {...defaultProps} />);
+    
+    await waitFor(() => {
+      // Should show unread count badge
+      expect(screen.getByText('3')).toBeInTheDocument(); // 3 unread notifications
+    });
+  });
+});

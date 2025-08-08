@@ -1,8 +1,11 @@
-# 개인 맞춤형 혼잡도 예측 알림 서비스
+# 스마트 교통 예측 시스템 (Smart Transit Predictor)
 
 **2025 국민행복증진 철도·대중교통·물류 아이디어 공모전 출품작**
 
 AI 기술을 활용하여 실시간 교통 데이터와 개인 이동 패턴을 분석하고, 각 이용자에게 최적화된 이동 경로와 시간을 제안하는 스마트 모빌리티 솔루션입니다.
+
+🌐 **Live Demo**: [https://smart-transit-predictor.vercel.app](https://smart-transit-predictor.vercel.app)
+📚 **GitHub**: [https://github.com/yonghwan1106/smart-transit-predictor](https://github.com/yonghwan1106/smart-transit-predictor)
 
 ## 🚀 주요 기능
 
@@ -77,17 +80,34 @@ congestion-prediction-service/
 └── docs/                   # 문서
 ```
 
+## 🚀 배포
+
+### Vercel 배포
+```bash
+# 프론트엔드 빌드
+npm run build:frontend
+
+# Vercel CLI를 통한 배포 (선택사항)
+vercel --prod
+```
+
+### 환경 변수
+```bash
+NODE_ENV=production
+REACT_APP_API_URL=https://smart-transit-predictor-backend.vercel.app
+```
+
 ## 🎯 개발 현황
 
-현재 프로토타입 개발 단계로, 다음 작업들이 진행됩니다:
+현재 완전한 프로토타입이 구현되어 있습니다:
 
 - [x] 프로젝트 구조 설정 및 개발 환경 구축
-- [ ] 목 데이터 모델 및 인메모리 저장소 구현
-- [ ] 목 데이터 생성 서비스 구축
-- [ ] 목 예측 알고리즘 개발
-- [ ] 백엔드 API 서버 구현
-- [ ] 프론트엔드 컴포넌트 개발
-- [ ] 통합 테스트 및 배포
+- [x] 목 데이터 모델 및 인메모리 저장소 구현
+- [x] 목 데이터 생성 서비스 구축
+- [x] 목 예측 알고리즘 개발
+- [x] 백엔드 API 서버 구현
+- [x] 프론트엔드 컴포넌트 개발
+- [x] 통합 테스트 및 배포
 
 ## 📄 라이선스
 
