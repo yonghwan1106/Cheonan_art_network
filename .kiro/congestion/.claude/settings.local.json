@@ -13,7 +13,10 @@
       "Bash(git push:*)",
       "Bash(del test-accuracy.ts)",
       "Bash(rm:*)",
-      "Bash(del test-fixes.ts)"
+      "Bash(del test-fixes.ts)",
+      "Bash(git remote add:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git remote remove:*)"
     ],
     "deny": []
   }
