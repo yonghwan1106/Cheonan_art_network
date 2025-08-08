@@ -1,22 +1,18 @@
 {
-  "name": "congestion-prediction-service",
+  "name": "smart-transit-predictor",
   "version": "1.0.0",
-  "description": "개인 맞춤형 혼잡도 예측 알림 서비스 - 2025 국민행복증진 철도·대중교통·물류 아이디어 공모전 출품작",
+  "description": "AI 기반 스마트 교통 예측 시스템",
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev",
-    "build": "npm run build:frontend && npm run build:backend",
-    "build:frontend": "cd frontend && npm run build",
+    "build": "npm run build:frontend",
+    "build:frontend": "cd frontend && npm install && npm run build",
     "build:backend": "cd backend && npm run build",
-    "build:vercel": "npm run build:frontend",
     "test": "npm run test:frontend && npm run test:backend",
     "test:frontend": "cd frontend && npm run test",
     "test:backend": "cd backend && npm run test",
-    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
-    "clean": "rimraf frontend/dist backend/dist",
-    "typecheck": "cd frontend && npm run typecheck && cd ../backend && npm run typecheck",
-    "lint": "cd frontend && npm run lint && cd ../backend && npm run lint"
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
   },
   "keywords": [
     "transportation",
@@ -25,7 +21,7 @@
     "public-transport",
     "ai-prediction"
   ],
-  "author": "Congestion Prediction Team",
+  "author": "Smart Transit Predictor Team",
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
