@@ -1,0 +1,29 @@
+{
+  "name": "congestion-prediction-service",
+  "version": "1.0.0",
+  "description": "개인 맞춤형 혼잡도 예측 알림 서비스 - 2025 국민행복증진 철도·대중교통·물류 아이디어 공모전 출품작",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm run test",
+    "test:backend": "cd backend && npm run test",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "keywords": [
+    "transportation",
+    "congestion-prediction",
+    "smart-mobility",
+    "public-transport",
+    "ai-prediction"
+  ],
+  "author": "Congestion Prediction Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

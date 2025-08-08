@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200">
+  <!-- 배경 -->
+  <rect width="800" height="1200" fill="#f5f7fa"/>
+  
+  <!-- 제목 부분 -->
+  <rect x="0" y="0" width="800" height="100" fill="#455a64"/>
+  <text x="400" y="60" font-family="Arial" font-size="32" font-weight="bold" text-anchor="middle" fill="white">개인 맞춤형 혼잡도 예측 알림 서비스</text>
+  
+  <!-- 섹션 1: 현황 및 문제점 -->
+  <rect x="0" y="120" width="800" height="180" fill="#ef5350"/>
+  <rect x="30" y="120" width="370" height="180" fill="#ef5350"/>
+  <text x="200" y="160" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="white">현황 및 문제점</text>
+  <text x="200" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="white">출퇴근 시간 대중교통 혼잡으로 인한 불편함</text>
+  <text x="200" y="215" font-family="Arial" font-size="14" text-anchor="middle" fill="white">예측 불가능한 지연과 혼잡한 환경</text>
+  <text x="200" y="240" font-family="Arial" font-size="14" text-anchor="middle" fill="white">개인의 이동 패턴을 고려하지 않는 현 시스템</text>
+  <text x="200" y="265" font-family="Arial" font-size="14" text-anchor="middle" fill="white">불규칙적인 혼잡으로 인한 스트레스</text>
+  
+  <!-- 섹션 1 이미지 -->
+  <circle cx="600" cy="210" r="80" fill="white"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj48ZyBmaWxsPSIjZWY1MzUwIj48cGF0aCBkPSJNODAgMzBhMTAgMTAgMCAwIDAtMTAgMTB2NjBhMTAgMTAgMCAwIDAgMjAgMFY0MGExMCAxMCAwIDAgMC0xMC0xMHptMzAgMTBhMTAgMTAgMCAwIDAtMTAgMTB2NTBhMTAgMTAgMCAwIDAgMjAgMFY1MGExMCAxMCAwIDAgMC0xMC0xMHptLTYwIDBhMTAgMTAgMCAwIDAtMTAgMTB2NTBhMTAgMTAgMCAwIDAgMjAgMFY1MGExMCAxMCAwIDAgMC0xMC0xMHptLTMwIDIwYTEwIDEwIDAgMCAwLTEwIDEwdjMwYTEwIDEwIDAgMCAwIDIwIDBWNzBhMTAgMTAgMCAwIDAtMTAtMTB6bTEyMCAwYTEwIDEwIDAgMCAwLTEwIDEwdjMwYTEwIDEwIDAgMCAwIDIwIDBWNzBhMTAgMTAgMCAwIDAtMTAtMTB6Ii8+PC9nPjxwYXRoIGQ9Ik03NyAxMjBhMyAzIDAgMCAxLTMgM0g0MGEzIDMgMCAwIDEtMy0zdi0yYTMgMyAwIDAgMSAzLTNoMzRhMyAzIDAgMCAxIDMgM3oiIGZpbGw9IiNlZjUzNTAiLz48cGF0aCBkPSJNMTIzIDEyMGEzIDMgMCAwIDEtMyAzSDg2YTMgMyAwIDAgMS0zLTN2LTJhMyAzIDAgMCAxIDMtM2gzNGEzIDMgMCAwIDEgMyAzeiIgZmlsbD0iI2VmNTM1MCIvPjwvc3ZnPg==" x="540" y="150" width="120" height="120"/>
+  <text x="600" y="280" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#ef5350">1</text>
+  
+  <!-- 섹션 2: 서비스 개요 -->
+  <rect x="0" y="320" width="800" height="180" fill="#7e57c2"/>
+  <rect x="400" y="320" width="370" height="180" fill="#7e57c2"/>
+  <text x="600" y="360" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="white">서비스 개요</text>
+  <text x="600" y="390" font-family="Arial" font-size="14" text-anchor="middle" fill="white">AI 기반 실시간 혼잡도 예측 시스템</text>
+  <text x="600" y="415" font-family="Arial" font-size="14" text-anchor="middle" fill="white">개인 이동 패턴을 분석한 맞춤형 알림</text>
+  <text x="600" y="440" font-family="Arial" font-size="14" text-anchor="middle" fill="white">대체 경로 및 최적 출발 시간 추천</text>
+  <text x="600" y="465" font-family="Arial" font-size="14" text-anchor="middle" fill="white">다양한 데이터 통합 분석</text>
+
+  <!-- 섹션 2 이미지 -->
+  <circle cx="200" cy="410" r="80" fill="white"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj48cGF0aCBkPSJNODAgMzBhNTAgNTAgMCAxIDAgNTAgNTAgNTAgNTAgMCAwIDAtNTAtNTB6bTAgMTBhNDAgNDAgMCAxIDEtNDAgNDAgNDAgNDAgMCAwIDEgNDAtNDB6IiBmaWxsPSIjN2U1N2MyIi8+PHBhdGggZD0iTTgwIDUwYTMwIDMwIDAgMSAwIDMwIDMwIDMwIDMwIDAgMCAwLTMwLTMwem0wIDEwYTIwIDIwIDAgMSAxLTIwIDIwIDIwIDIwIDAgMCAxIDIwLTIweiIgZmlsbD0iIzdlNTdjMiIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iODAiIHI9IjEwIiBmaWxsPSIjN2U1N2MyIi8+PHBhdGggZD0iTTEyMCA0MGE1IDUgMCAwIDAtNSA1djEwYTUgNSAwIDAgMCAxMCAwVjQ1YTUgNSAwIDAgMC01LTV6TTQwIDQwYTUgNSAwIDAgMC01IDV2MTBhNSA1IDAgMCAwIDEwIDBWNDVhNSA1IDAgMCAwLTUtNXoiIGZpbGw9IiM3ZTU3YzIiLz48cGF0aCBkPSJNMTIwIDExMGE1IDUgMCAwIDAtNSA1djEwYTUgNSAwIDAgMCAxMCAwdi0xMGE1IDUgMCAwIDAtNS01ek00MCAxMTBhNSA1IDAgMCAwLTUgNXYxMGE1IDUgMCAwIDAgMTAgMHYtMTBhNSA1IDAgMCAwLTUtNXoiIGZpbGw9IiM3ZTU3YzIiLz48L3N2Zz4=" x="140" y="350" width="120" height="120"/>
+  <text x="200" y="480" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#7e57c2">2</text>
+  
+  <!-- 섹션 3: 주요 기능 -->
+  <rect x="0" y="520" width="800" height="180" fill="#26a69a"/>
+  <rect x="30" y="520" width="370" height="180" fill="#26a69a"/>
+  <text x="200" y="560" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="white">주요 기능</text>
+  <text x="200" y="590" font-family="Arial" font-size="14" text-anchor="middle" fill="white">실시간 혼잡도 시각화 및 알림</text>
+  <text x="200" y="615" font-family="Arial" font-size="14" text-anchor="middle" fill="white">개인 이동 패턴 학습 및 경로 추천</text>
+  <text x="200" y="640" font-family="Arial" font-size="14" text-anchor="middle" fill="white">출발 시간 최적화 제안</text>
+  <text x="200" y="665" font-family="Arial" font-size="14" text-anchor="middle" fill="white">대체 경로 및 환승 정보 제공</text>
+
+  <!-- 섹션 3 이미지 -->
+  <circle cx="600" cy="610" r="80" fill="white"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj48cmVjdCB4PSIzMCIgeT0iNDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iODAiIHJ4PSI1IiByeT0iNSIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzI2YTY5YSIgc3Ryb2tlLXdpZHRoPSIzIi8+PHJlY3QgeD0iNDAiIHk9IjUwIiB3aWR0aD0iODAiIGhlaWdodD0iMTUiIHJ4PSIyIiByeT0iMiIgZmlsbD0iI2VmZjhmZiIgLz48cmVjdCB4PSI0MCIgeT0iNzAiIHdpZHRoPSI0MCIgaGVpZ2h0PSIxNSIgcng9IjIiIHJ5PSIyIiBmaWxsPSIjZmY1MjUyIiAvPjxyZWN0IHg9IjgwIiB5PSI3MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjE1IiByeD0iMiIgcnk9IjIiIGZpbGw9IiM0Y2FmNTAiIC8+PHJlY3QgeD0iNDAiIHk9IjkwIiB3aWR0aD0iODAiIGhlaWdodD0iMjAiIHJ4PSIyIiByeT0iMiIgZmlsbD0iI2VmZjhmZiIgLz48Y2lyY2xlIGN4PSIxMjUiIGN5PSI1MCIgcj0iMTUiIGZpbGw9IiMyNmE2OWEiLz48cGF0aCBkPSJNMTI1IDQwdjIwbTEwLTEwaC0yMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9zdmc+" x="540" y="550" width="120" height="120"/>
+  <text x="600" y="680" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#26a69a">3</text>
+  
+  <!-- 섹션 4: 데이터 수집 방법 -->
+  <rect x="0" y="720" width="800" height="180" fill="#ffa726"/>
+  <rect x="400" y="720" width="370" height="180" fill="#ffa726"/>
+  <text x="600" y="760" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="white">데이터 수집 방법</text>
+  <text x="600" y="790" font-family="Arial" font-size="14" text-anchor="middle" fill="white">교통카드 태그 정보 실시간 연동</text>
+  <text x="600" y="815" font-family="Arial" font-size="14" text-anchor="middle" fill="white">CCTV 영상 분석을 통한 승객 밀도 측정</text>
+  <text x="600" y="840" font-family="Arial" font-size="14" text-anchor="middle" fill="white">날씨, 행사 정보 API 연계</text>
+  <text x="600" y="865" font-family="Arial" font-size="14" text-anchor="middle" fill="white">이용객 피드백 및 앱 사용 패턴</text>
+
+  <!-- 섹션 4 이미지 -->
+  <circle cx="200" cy="810" r="80" fill="white"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj48cGF0aCBkPSJNNDAgNDBjLTUuNSAwLTEwIDQuNS0xMCAxMHY0MGMwIDUuNSA0LjUgMTAgMTAgMTBoODBjNS41IDAgMTAtNC41IDEwLTEwVjUwYzAtNS41LTQuNS0xMC0xMC0xMHptMCAxMGg4MHY0MEg0MHoiIGZpbGw9IiNmZmE3MjYiLz48cGF0aCBkPSJNNjAgNjBhMTAgMTAgMCAxIDAgMTAgMTAgMTAgMTAgMCAwIDAtMTAtMTB6IiBmaWxsPSIjZmZhNzI2Ii8+PHBhdGggZD0iTTkwIDYwYTEwIDEwIDAgMSAwIDEwIDEwIDEwIDEwIDAgMCAwLTEwLTEweiIgZmlsbD0iI2ZmYTcyNiIvPjxwYXRoIGQ9Ik03MCAxMDB2MTBsLTEwIDEwaDQwbC0xMC0xMHYtMTB6IiBmaWxsPSIjZmZhNzI2Ii8+PHJlY3QgeD0iMzAiIHk9IjExMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMCIgcng9IjUiIHJ5PSI1IiBmaWxsPSIjZmZhNzI2Ii8+PC9zdmc+" x="140" y="750" width="120" height="120"/>
+  <text x="200" y="880" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#ffa726">4</text>
+  
+  <!-- 섹션 5: 기대효과 -->
+  <rect x="0" y="920" width="800" height="180" fill="#5c6bc0"/>
+  <rect x="30" y="920" width="370" height="180" fill="#5c6bc0"/>
+  <text x="200" y="960" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="white">기대효과</text>
+  <text x="200" y="990" font-family="Arial" font-size="14" text-anchor="middle" fill="white">이용객의 이동 편의성 향상</text>
+  <text x="200" y="1015" font-family="Arial" font-size="14" text-anchor="middle" fill="white">대중교통 혼잡도 분산 효과</text>
+  <text x="200" y="1040" font-family="Arial" font-size="14" text-anchor="middle" fill="white">이용 시간 예측 가능성 증가</text>
+  <text x="200" y="1065" font-family="Arial" font-size="14" text-anchor="middle" fill="white">대중교통 이용 만족도 증진</text>
+
+  <!-- 섹션 5 이미지 -->
+  <circle cx="600" cy="1010" r="80" fill="white"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj48cGF0aCBkPSJNODAgNDBjLTIyLjEgMC00MCAxNy45LTQwIDQwIDAgMzUgNDAgNjAgNDAgNjBzNDAtMjUgNDAtNjBjMC0yMi4xLTE3LjktNDAtNDAtNDB6bTAgMjBhMjAgMjAgMCAxIDEgMCA0MCAyMCAyMCAwIDAgMSAwLTQweiIgZmlsbD0iIzVjNmJjMCIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iODAiIHI9IjEwIiBmaWxsPSIjNWM2YmMwIi8+PC9zdmc+" x="540" y="950" width="120" height="120"/>
+  <text x="600" y="1080" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#5c6bc0">5</text>
+  
+  <!-- 하단 정보 -->
+  <rect x="0" y="1120" width="800" height="80" fill="#455a64"/>
+  <text x="400" y="1160" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">2025 국민행복증진 철도·대중교통·물류 아이디어 공모전</text>
+  <text x="400" y="1185" font-family="Arial" font-size="14" text-anchor="middle" fill="white">더 편리한 교통·물류 기술 아이디어 제안</text>
+</svg>
