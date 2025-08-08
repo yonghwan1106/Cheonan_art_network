@@ -16,7 +16,10 @@
       "Bash(del test-fixes.ts)",
       "Bash(git remote add:*)",
       "Bash(git remote set-url:*)",
-      "Bash(git remote remove:*)"
+      "Bash(git remote remove:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(true)"
     ],
     "deny": []
   }
