@@ -141,7 +141,7 @@ export class EventGenerator {
    */
   generateRandomEvent(): EventData {
     const eventTypes = Object.keys(this.eventTemplates) as EventType[];
-    const eventType = getRandomElement(eventTypes);
+    const eventType = getRandomElement(eventTypes) ?? 'accident'; // 기본값으로 'accident' 사용
     
     return this.generateEventByType(eventType);
   }
@@ -164,13 +164,13 @@ export class EventGenerator {
     const endTime = new Date(startTime.getTime() + duration * 60 * 1000);
     
     // 영향받는 위치 선택
-    const affectedLocation = getRandomElement(template.locations);
+    const affectedLocation = getRandomElement(template.locations) ?? 'gangnam'; // 기본값으로 'gangnam' 사용
     const affectedRoutes = this.getAffectedRoutes(affectedLocation, eventType);
     
     const event: EventData = {
       id: generateId('event'),
       type: eventType,
-      title: getRandomElement(template.titles),
+      title: getRandomElement(template.titles) ?? `${eventType} 이벤트`, // 기본 타이틀 제공
       description: this.generateEventDescription(eventType, affectedLocation),
       location: {
         stationIds: [affectedLocation],
@@ -228,7 +228,7 @@ export class EventGenerator {
    */
   simulateEmergencyEvent(): EventData {
     const emergencyTypes: EventType[] = ['accident', 'signal_failure', 'rescue', 'weather_disruption'];
-    const eventType = getRandomElement(emergencyTypes);
+    const eventType = getRandomElement(emergencyTypes) ?? 'accident'; // 기본값으로 'accident' 사용
     
     const event = this.generateEventByType(eventType);
     event.status = 'active';

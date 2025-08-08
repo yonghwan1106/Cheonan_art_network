@@ -5,7 +5,7 @@ import { eventGenerator } from './eventGenerator';
 import { feedbackIntegration } from './feedbackIntegration';
 import { accuracySimulation } from './accuracySimulation';
 import { dataStore } from './dataStore';
-import { PredictionData, CongestionData } from '../types';
+import { PredictionData, CongestionData, CongestionLevel } from '../types';
 
 /**
  * 통합 예측 서비스 상태
@@ -422,9 +422,11 @@ export class IntegratedPredictionService {
       if (!randomUser || !randomRoute) continue;
       
       // 랜덤한 예측/실제 레벨 생성
-      const levels = ['low', 'medium', 'high'] as const;
+      const levels: CongestionLevel[] = ['low', 'medium', 'high'];
       const predictedLevel = levels[Math.floor(Math.random() * levels.length)];
       const actualLevel = levels[Math.floor(Math.random() * levels.length)];
+      
+      if (!predictedLevel || !actualLevel) continue;
       
       try {
         feedbackIntegration.generateMockFeedback(

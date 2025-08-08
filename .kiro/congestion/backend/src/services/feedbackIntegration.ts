@@ -491,7 +491,9 @@ export class FeedbackIntegrationService {
         countsByHour[hour] = 0;
       }
       
-      countsByHour[hour]++;
+      if (countsByHour[hour] !== undefined) {
+        countsByHour[hour]++;
+      }
       if (isAccurate) {
         accuracyByHour[hour]++;
       }
@@ -579,17 +581,17 @@ export class FeedbackIntegrationService {
       const avgRating = weekFeedbacks.length > 0 
         ? weekFeedbacks.reduce((sum, f) => sum + f.rating, 0) / weekFeedbacks.length 
         : 0;
-      trends.ratingTrend.push(Math.round(avgRating * 100) / 100);
+      (trends.ratingTrend as number[]).push(Math.round(avgRating * 100) / 100);
 
       // 주간 정확도
       const accurateCount = weekFeedbacks.filter(f => 
         f.predictedCongestion === f.actualCongestion
       ).length;
       const accuracy = weekFeedbacks.length > 0 ? accurateCount / weekFeedbacks.length : 0;
-      trends.accuracyTrend.push(Math.round(accuracy * 100) / 100);
+      (trends.accuracyTrend as number[]).push(Math.round(accuracy * 100) / 100);
 
       // 주간 피드백 수
-      trends.volumeTrend.push(weekFeedbacks.length);
+      (trends.volumeTrend as number[]).push(weekFeedbacks.length);
     }
 
     return trends;

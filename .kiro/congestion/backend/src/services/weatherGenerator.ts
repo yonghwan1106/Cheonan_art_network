@@ -208,7 +208,7 @@ export class WeatherGenerator {
       humidity,
       windSpeed,
       visibility,
-      description: getRandomElement(this.weatherDescriptions[condition]),
+      description: getRandomElement(this.weatherDescriptions[condition]) ?? 'Clear weather',
       impact: this.calculateWeatherImpact(condition, temperature, humidity, windSpeed, visibility)
     };
   }

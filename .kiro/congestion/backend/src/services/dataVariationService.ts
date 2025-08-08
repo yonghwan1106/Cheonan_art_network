@@ -209,6 +209,11 @@ export class DataVariationService {
       const randomIndex = Math.floor(Math.random() * dataWithAnomalies.length);
       const point = dataWithAnomalies[randomIndex];
       
+      // 안전 가드: point가 undefined인 경우 건너뛰기
+      if (!point) {
+        continue;
+      }
+      
       // 이상치 타입 결정
       const anomalyType = getRandomElement(['spike', 'dip', 'plateau']);
       
@@ -223,7 +228,10 @@ export class DataVariationService {
           // 주변 값들을 비슷하게 만들기
           const plateauValue = point.value;
           for (let j = Math.max(0, randomIndex - 2); j <= Math.min(dataWithAnomalies.length - 1, randomIndex + 2); j++) {
-            dataWithAnomalies[j].value = plateauValue + (Math.random() - 0.5) * 5;
+            const targetPoint = dataWithAnomalies[j];
+            if (targetPoint) {
+              targetPoint.value = plateauValue + (Math.random() - 0.5) * 5;
+            }
           }
           break;
       }
@@ -278,10 +286,13 @@ export class DataVariationService {
     
     const multiplier = weekdayMultipliers[dayOfWeek];
     
+    // 안전 가드: multiplier가 undefined인 경우 기본값 1.0 사용
+    const safeMultiplier = multiplier ?? 1.0;
+    
     return baseData.map(point => ({
       ...point,
-      value: clamp(point.value * multiplier, 0, 100),
-      level: getCongestionLevel(point.value * multiplier)
+      value: clamp(point.value * safeMultiplier, 0, 100),
+      level: getCongestionLevel(point.value * safeMultiplier)
     }));
   }
 

@@ -462,7 +462,9 @@ export class RecommendationEngine {
     const congestionText = route.congestionScore > 70 ? '혼잡' : 
                           route.congestionScore > 40 ? '보통' : '여유';
     
-    return `${minutesBefore}분 후 출발하시면 ${route.routes[0].routeName}으로 ${route.totalTime}분 소요됩니다. 현재 혼잡도: ${congestionText}`;
+    const firstRoute = route.routes[0];
+    const routeName = firstRoute ? firstRoute.routeName : '경로';
+    return `${minutesBefore}분 후 출발하시면 ${routeName}으로 ${route.totalTime}분 소요됩니다. 현재 혼잡도: ${congestionText}`;
   }
 
   /**
@@ -497,7 +499,7 @@ export class RecommendationEngine {
     }
 
     // 시간 절약 인사이트
-    if (routes.length > 1) {
+    if (routes.length > 1 && routes[0] && routes[1]) {
       const timeDifference = routes[1].totalTime - routes[0].totalTime;
       if (timeDifference > 10) {
         insights.push({

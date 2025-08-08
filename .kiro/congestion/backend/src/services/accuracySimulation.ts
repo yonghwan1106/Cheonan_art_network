@@ -174,7 +174,7 @@ export class AccuracySimulationService {
   /**
    * 정확도 개선 시뮬레이션
    */
-  simulateAccuracyImprovement(
+  async simulateAccuracyImprovement(
     routeId: string, 
     improvementScenarios: {
       name: string;
@@ -199,13 +199,29 @@ export class AccuracySimulationService {
     }
 
     // 최고 시나리오 선택
-    const bestScenario = Object.entries(scenarios)
-      .reduce((best, [name, result]) => 
-        result.metrics.accuracy > scenarios[best].metrics.accuracy ? name : best,
-        Object.keys(scenarios)[0]
-      );
+    const scenarioEntries = Object.entries(scenarios);
+    if (scenarioEntries.length === 0) {
+      throw new Error('No improvement scenarios provided');
+    }
 
-    const expectedImprovement = scenarios[bestScenario].metrics.accuracy - baseline.metrics.accuracy;
+    const firstEntry = scenarioEntries[0];
+    if (!firstEntry) {
+      throw new Error('No scenario entries found');
+    }
+    
+    const bestScenario = scenarioEntries
+      .reduce((best, [name, result]) => {
+        const bestResult = scenarios[best];
+        if (!bestResult) return name;
+        return result.metrics.accuracy > bestResult.metrics.accuracy ? name : best;
+      }, firstEntry[0]);
+
+    const bestScenarioResult = scenarios[bestScenario];
+    if (!bestScenarioResult) {
+      throw new Error(`Best scenario result not found: ${bestScenario}`);
+    }
+
+    const expectedImprovement = bestScenarioResult.metrics.accuracy - baseline.metrics.accuracy;
 
     return {
       baseline,
@@ -275,10 +291,15 @@ export class AccuracySimulationService {
         }
       });
 
-      if (closestActual) {
-        const error = pred.congestionPercentage - closestActual.congestionPercentage;
+      if (closestActual && 
+          typeof pred.congestionPercentage === 'number' && 
+          typeof (closestActual as any).congestionPercentage === 'number' &&
+          (pred as any).congestionLevel && (closestActual as any).congestionLevel) {
+        const predPercentage = pred.congestionPercentage as number;
+        const actualPercentage = (closestActual as any).congestionPercentage as number;
+        const error = predPercentage - actualPercentage;
         const absoluteError = Math.abs(error);
-        const levelMatch = pred.congestionLevel === closestActual.congestionLevel;
+        const levelMatch = (pred as any).congestionLevel === (closestActual as any).congestionLevel;
 
         matched.push({
           prediction: pred,
@@ -320,7 +341,7 @@ export class AccuracySimulationService {
         return sum + (d.absoluteError / d.actual.congestionPercentage) * 100;
       }
       return sum;
-    }, 0) / matchedData.length;
+    }, 0) / (matchedData.length || 1);
 
     const accuracy = matchedData.filter(d => d.levelMatch).length / matchedData.length;
 
@@ -381,7 +402,11 @@ export class AccuracySimulationService {
     };
 
     matchedData.forEach(d => {
-      matrix[d.prediction.congestionLevel][d.actual.congestionLevel]++;
+      const predLevel = d.prediction.congestionLevel;
+      const actualLevel = d.actual.congestionLevel;
+      if (predLevel && actualLevel) {
+        matrix[predLevel][actualLevel]++;
+      }
     });
 
     return matrix;
@@ -405,30 +430,40 @@ export class AccuracySimulationService {
       const day = time.toISOString().split('T')[0];
 
       // 시간별 정확도
-      if (!hourly[hour]) {
+      if (hour !== undefined && hourly[hour] === undefined) {
         hourly[hour] = 0;
         hourlyCounts[hour] = 0;
       }
-      hourlyCounts[hour]++;
-      if (d.levelMatch) hourly[hour]++;
+      if (hour !== undefined) {
+        if (hourlyCounts[hour] !== undefined) hourlyCounts[hour]++;
+        if (d.levelMatch && hourly[hour] !== undefined) hourly[hour]++;
+      }
 
       // 일별 정확도
-      if (!daily[day]) {
+      if (day && daily[day] === undefined) {
         daily[day] = 0;
         dailyCounts[day] = 0;
       }
-      dailyCounts[day]++;
-      if (d.levelMatch) daily[day]++;
+      if (day) {
+        if (dailyCounts[day] !== undefined) dailyCounts[day]++;
+        if (d.levelMatch && daily[day] !== undefined) daily[day]++;
+      }
     });
 
     // 비율로 변환
     Object.keys(hourly).forEach(hour => {
       const h = parseInt(hour);
-      hourly[h] = hourly[h] / hourlyCounts[h];
+      const count = hourlyCounts[h];
+      if (count && count > 0 && hourly[h] !== undefined) {
+        hourly[h] = hourly[h] / count;
+      }
     });
 
     Object.keys(daily).forEach(day => {
-      daily[day] = daily[day] / dailyCounts[day];
+      const count = dailyCounts[day];
+      if (count && count > 0 && daily[day] !== undefined) {
+        daily[day] = daily[day] / count;
+      }
     });
 
     return { hourly, daily };
@@ -445,11 +480,11 @@ export class AccuracySimulationService {
     const absoluteErrors = matchedData.map(d => d.absoluteError);
 
     // 체계적 편향 (평균 오차)
-    const systematicBias = errors.reduce((sum, e) => sum + e, 0) / errors.length;
+    const systematicBias = errors.length > 0 ? errors.reduce((sum, e) => sum + e, 0) / errors.length : 0;
 
     // 랜덤 오차 (표준편차)
     const mean = systematicBias;
-    const variance = errors.reduce((sum, e) => sum + Math.pow(e - mean, 2), 0) / errors.length;
+    const variance = errors.length > 0 ? errors.reduce((sum, e) => sum + Math.pow(e - mean, 2), 0) / errors.length : 0;
     const randomError = Math.sqrt(variance);
 
     // 이상치 (절대 오차가 30% 이상)
@@ -525,6 +560,12 @@ export class AccuracySimulationService {
 
     const best = ranking[0];
     const worst = ranking[ranking.length - 1];
+    
+    if (!best || !worst) {
+      insights.push('랭킹 데이터를 분석할 수 없습니다.');
+      return insights;
+    }
+    
     const avgAccuracy = ranking.reduce((sum, r) => sum + r.accuracy, 0) / ranking.length;
 
     insights.push(`최고 성능: ${best.routeId} (정확도 ${(best.accuracy * 100).toFixed(1)}%)`);
