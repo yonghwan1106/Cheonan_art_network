@@ -40,7 +40,7 @@ export class FeedbackIncentiveSystem {
       predictedCongestion,
       actualCongestion,
       rating: Math.max(1, Math.min(5, rating)),
-      comment,
+      ...(comment !== undefined && { comment }),
       verified: false
     };
 
@@ -118,11 +118,15 @@ export class FeedbackIncentiveSystem {
 
     this.awardPoints(userId, finalPoints, actionType);
 
+    // 업데이트된 사용자 정보 다시 조회
+    const updatedUser = dataStore.getUserById(userId);
+    const totalPoints = updatedUser ? updatedUser.points : user.points + finalPoints;
+
     return {
       points: finalPoints,
       reason,
       levelMultiplier,
-      totalPoints: user.points + finalPoints
+      totalPoints
     };
   }
 
@@ -137,6 +141,11 @@ export class FeedbackIncentiveSystem {
       points: user.points + points,
       updatedAt: new Date().toISOString()
     });
+
+    if (!updatedUser) {
+      console.error(`Failed to update user points for ${userId}`);
+      return;
+    }
 
     // 포인트 히스토리 기록 (실제로는 별도 테이블에 저장)
     console.log(`Points awarded: ${points} to user ${userId} for ${reason}`);

@@ -53,7 +53,7 @@ export class CongestionGenerator {
         
         // 특수 이벤트 적용 (10% 확률)
         const hasSpecialEvent = Math.random() < 0.1;
-        const events = hasSpecialEvent ? [getRandomElement(this.specialEvents)] : [];
+        const events = hasSpecialEvent ? [getRandomElement(this.specialEvents)].filter(event => event !== undefined) as string[] : [];
         
         if (hasSpecialEvent) {
           finalPercentage = Math.min(100, finalPercentage + Math.floor(Math.random() * 20));

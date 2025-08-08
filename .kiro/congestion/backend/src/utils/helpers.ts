@@ -178,10 +178,11 @@ function toRadians(degrees: number): number {
  * 배열을 무작위로 섞기
  */
 export function shuffleArray<T>(array: T[]): T[] {
+  if (!array || array.length === 0) return [];
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
   }
   return shuffled;
 }
@@ -189,7 +190,8 @@ export function shuffleArray<T>(array: T[]): T[] {
 /**
  * 배열에서 랜덤 요소 선택
  */
-export function getRandomElement<T>(array: T[]): T {
+export function getRandomElement<T>(array: T[]): T | undefined {
+  if (!array || array.length === 0) return undefined;
   return array[Math.floor(Math.random() * array.length)];
 }
 
@@ -236,8 +238,16 @@ export function formatDate(date: Date): string {
  * 상대적 시간 표시 (예: "3분 전", "1시간 후")
  */
 export function getRelativeTime(timestamp: string): string {
+  if (!timestamp) return '알 수 없음';
+  
   const now = new Date();
   const target = new Date(timestamp);
+  
+  // Invalid date check
+  if (isNaN(target.getTime()) || isNaN(now.getTime())) {
+    return '알 수 없음';
+  }
+  
   const diffMs = target.getTime() - now.getTime();
   const diffMinutes = Math.floor(diffMs / (1000 * 60));
   
@@ -270,23 +280,27 @@ export function getRelativeTime(timestamp: string): string {
  */
 export const validators = {
   isValidEmail(email: string): boolean {
+    if (!email || typeof email !== 'string') return false;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   },
 
   isValidCongestionLevel(level: string): level is CongestionLevel {
+    if (!level || typeof level !== 'string') return false;
     return ['low', 'medium', 'high'].includes(level);
   },
 
   isValidTransportType(type: string): type is TransportType {
+    if (!type || typeof type !== 'string') return false;
     return ['subway', 'bus', 'shuttle'].includes(type);
   },
 
   isValidWeatherCondition(condition: string): condition is WeatherCondition {
+    if (!condition || typeof condition !== 'string') return false;
     return ['clear', 'cloudy', 'rainy', 'snowy', 'foggy'].includes(condition);
   },
 
   isValidRating(rating: number): boolean {
-    return Number.isInteger(rating) && rating >= 1 && rating <= 5;
+    return typeof rating === 'number' && Number.isInteger(rating) && rating >= 1 && rating <= 5;
   },
 };

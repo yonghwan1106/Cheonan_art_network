@@ -124,6 +124,9 @@ export function authenticateSession(req: AuthenticatedRequest, res: Response, ne
   next();
 }
 
+// authMiddleware 별칭 추가 (다른 파일에서 사용하는 이름)
+export const authMiddleware = authenticateSession;
+
 /**
  * 선택적 인증 미들웨어 (인증되지 않아도 통과)
  */

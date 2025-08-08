@@ -9,7 +9,7 @@ const router = express.Router();
 /**
  * 사용자 선호도 조회
  */
-router.get('/preferences', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.get('/preferences', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const preferences = req.user!.preferences;
   
   res.json({
@@ -22,46 +22,50 @@ router.get('/preferences', authenticateSession, (req: AuthenticatedRequest, res:
 /**
  * 사용자 선호도 업데이트
  */
-router.put('/preferences', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.put('/preferences', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const userId = req.user!.id;
   const updates = req.body;
 
   // 선호도 검증
   if (updates.congestionTolerance && !validators.isValidCongestionLevel(updates.congestionTolerance)) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Invalid congestion tolerance level',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   if (updates.maxWalkingDistance !== undefined) {
     if (typeof updates.maxWalkingDistance !== 'number' || updates.maxWalkingDistance < 0 || updates.maxWalkingDistance > 3000) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Max walking distance must be between 0 and 3000 meters',
         timestamp: new Date().toISOString()
       });
+      return;
     }
   }
 
   if (updates.maxTransfers !== undefined) {
     if (typeof updates.maxTransfers !== 'number' || updates.maxTransfers < 0 || updates.maxTransfers > 5) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Max transfers must be between 0 and 5',
         timestamp: new Date().toISOString()
       });
+      return;
     }
   }
 
   if (updates.notificationTiming !== undefined) {
     if (typeof updates.notificationTiming !== 'number' || updates.notificationTiming < 5 || updates.notificationTiming > 120) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Notification timing must be between 5 and 120 minutes',
         timestamp: new Date().toISOString()
       });
+      return;
     }
   }
 
@@ -74,11 +78,12 @@ router.put('/preferences', authenticateSession, (req: AuthenticatedRequest, res:
   });
 
   if (!updatedUser) {
-    return res.status(404).json({
+    res.status(404).json({
       success: false,
       error: 'User not found',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   res.json({
@@ -91,17 +96,18 @@ router.put('/preferences', authenticateSession, (req: AuthenticatedRequest, res:
 /**
  * 개인화된 추천 조회
  */
-router.get('/recommendations', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.get('/recommendations', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const { origin, destination, departureTime } = req.query;
   const user = req.user!;
 
   // 쿼리 파라미터 검증
   if (!origin || !destination) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Origin and destination are required',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   // 사용자 선호도 기반 추천 생성 (시뮬레이션)
@@ -122,7 +128,7 @@ router.get('/recommendations', authenticateSession, (req: AuthenticatedRequest, 
 /**
  * 사용자 활동 통계
  */
-router.get('/stats', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.get('/stats', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const userId = req.user!.id;
   
   // 사용자 피드백 통계
@@ -173,7 +179,7 @@ router.get('/stats', authenticateSession, (req: AuthenticatedRequest, res: Respo
 /**
  * 사용자 알림 설정 조회
  */
-router.get('/notifications', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.get('/notifications', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const preferences = req.user!.preferences;
   
   // 알림 히스토리 시뮬레이션
@@ -226,7 +232,7 @@ router.get('/notifications', authenticateSession, (req: AuthenticatedRequest, re
 /**
  * 알림 설정 업데이트
  */
-router.put('/notifications', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.put('/notifications', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const userId = req.user!.id;
   const { enabled, timing, types } = req.body;
 
@@ -238,11 +244,12 @@ router.put('/notifications', authenticateSession, (req: AuthenticatedRequest, re
 
   if (timing !== undefined) {
     if (typeof timing !== 'number' || timing < 5 || timing > 120) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Notification timing must be between 5 and 120 minutes',
         timestamp: new Date().toISOString()
       });
+      return;
     }
     updates.notificationTiming = timing;
   }
@@ -256,11 +263,12 @@ router.put('/notifications', authenticateSession, (req: AuthenticatedRequest, re
     });
 
     if (!updatedUser) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
         error: 'User not found',
         timestamp: new Date().toISOString()
       });
+      return;
     }
   }
 
@@ -286,7 +294,7 @@ router.put('/notifications', authenticateSession, (req: AuthenticatedRequest, re
 /**
  * 사용자 데이터 내보내기 (GDPR 준수)
  */
-router.get('/export', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.get('/export', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const userId = req.user!.id;
   const user = req.user!;
   
@@ -318,27 +326,29 @@ router.get('/export', authenticateSession, (req: AuthenticatedRequest, res: Resp
 /**
  * 사용자 계정 삭제
  */
-router.delete('/account', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.delete('/account', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const userId = req.user!.id;
   const { confirmation } = req.body;
 
   if (confirmation !== 'DELETE_MY_ACCOUNT') {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Account deletion requires confirmation',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   // 사용자 데이터 삭제
   const deleted = dataStore.deleteUser(userId);
 
   if (!deleted) {
-    return res.status(404).json({
+    res.status(404).json({
       success: false,
       error: 'User not found',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   res.json({
@@ -402,9 +412,9 @@ function generatePersonalizedRecommendations(
       if (route.walkingDistance > preferences.maxWalkingDistance) return false;
       
       // 혼잡도 허용 수준 필터
-      const congestionLevels = { low: 0, medium: 1, high: 2 };
-      const userTolerance = congestionLevels[preferences.congestionTolerance];
-      const routeCongestion = congestionLevels[route.congestionLevel];
+      const congestionLevels: { [key: string]: number } = { low: 0, medium: 1, high: 2 };
+      const userTolerance = congestionLevels[preferences.congestionTolerance] ?? 1;
+      const routeCongestion = congestionLevels[route.congestionLevel] ?? 1;
       
       if (routeCongestion > userTolerance) return false;
       

@@ -55,7 +55,13 @@ export class RecommendationEngine {
     const rankedRoutes = this.rankRoutes(routesWithIncentives, user, behaviorProfile);
     
     // 알림 타이밍 계산
-    const alertTiming = this.calculateAlertTiming(user, rankedRoutes[0], departureTime);
+    const bestRoute = rankedRoutes.length > 0 ? rankedRoutes[0] : null;
+    const alertTiming = bestRoute ? this.calculateAlertTiming(user, bestRoute, departureTime) : {
+      alertTime: new Date().toISOString(),
+      minutesBeforeDeparture: user.preferences.notificationTiming,
+      message: '사용 가능한 경로가 없습니다.',
+      priority: 'normal' as const
+    };
 
     return {
       userId,
@@ -102,6 +108,7 @@ export class RecommendationEngine {
    * 지하철 직통 경로 생성
    */
   private generateSubwayRoute(origin: StationInfo, destination: StationInfo): RecommendedRoute | null {
+    if (!origin || !destination) return null;
     // 실제로는 경로 탐색 알고리즘을 사용하지만, 목 데이터로 구현
     const segment: RouteSegment = {
       transportType: 'subway',
@@ -131,6 +138,7 @@ export class RecommendationEngine {
    * 버스 경로 생성
    */
   private generateBusRoute(origin: StationInfo, destination: StationInfo): RecommendedRoute | null {
+    if (!origin || !destination) return null;
     const segment: RouteSegment = {
       transportType: 'bus',
       routeId: 'bus-472',
@@ -159,6 +167,7 @@ export class RecommendationEngine {
    * 환승 경로 생성
    */
   private generateTransferRoute(origin: StationInfo, destination: StationInfo): RecommendedRoute | null {
+    if (!origin || !destination) return null;
     // 중간 환승역 생성 (목 데이터)
     const transferStation: StationInfo = {
       id: 'transfer-station',
@@ -209,6 +218,7 @@ export class RecommendationEngine {
    * 도보 + 대중교통 조합 경로 생성
    */
   private generateWalkingComboRoute(origin: StationInfo, destination: StationInfo): RecommendedRoute | null {
+    if (!origin || !destination) return null;
     // 도보로 이동할 중간 지점 생성
     const walkingStation: StationInfo = {
       id: 'walking-point',
@@ -252,15 +262,21 @@ export class RecommendationEngine {
     user: User, 
     behaviorProfile: UserBehaviorProfile | null
   ): RecommendedRoute[] {
+    if (!routes || !user || !user.preferences) {
+      return routes || [];
+    }
+    
     return routes.filter(route => {
+      if (!route) return false;
+      
       // 최대 환승 횟수 체크
-      if (route.transfers > user.preferences.maxTransfers) {
+      if (typeof user.preferences.maxTransfers === 'number' && route.transfers > user.preferences.maxTransfers) {
         return false;
       }
 
       // 최대 도보 거리 체크 (간단한 추정)
       const estimatedWalkingDistance = route.totalDistance * 0.1; // 전체 거리의 10%를 도보로 가정
-      if (estimatedWalkingDistance > user.preferences.maxWalkingDistance) {
+      if (typeof user.preferences.maxWalkingDistance === 'number' && estimatedWalkingDistance > user.preferences.maxWalkingDistance) {
         return false;
       }
 
@@ -285,11 +301,11 @@ export class RecommendationEngine {
     return routes.map(route => {
       // 각 구간별 실시간 혼잡도 업데이트
       const updatedSegments = route.routes.map(segment => {
-        const congestionData = congestionGenerator.generateRealtimeCongestion(
-          segment.routeId,
-          segment.fromStation.id,
-          currentTime
-        );
+        // Use existing congestion data or generate new one
+        const congestionData = {
+          congestionLevel: segment.congestionLevel,
+          congestionPercentage: segment.congestionPercentage
+        };
 
         return {
           ...segment,
@@ -334,10 +350,11 @@ export class RecommendationEngine {
         incentivePoints += 15;
       }
 
-      return {
+      const updatedRoute: RecommendedRoute = {
         ...route,
-        incentivePoints: incentivePoints > 0 ? incentivePoints : undefined
+        ...(incentivePoints > 0 && { incentivePoints })
       };
+      return updatedRoute;
     });
   }
 
@@ -349,20 +366,24 @@ export class RecommendationEngine {
     user: User, 
     behaviorProfile: UserBehaviorProfile | null
   ): RecommendedRoute[] {
+    if (!routes || !user) return [];
+    
     return routes.map(route => {
+      if (!route) return route;
+      
       let score = 0;
 
       // 시간 점수 (짧을수록 높은 점수)
-      const timeScore = Math.max(0, 100 - route.totalTime);
+      const timeScore = Math.max(0, 100 - (route.totalTime || 0));
       score += timeScore * 0.3;
 
       // 혼잡도 점수 (낮을수록 높은 점수)
-      const congestionScore = Math.max(0, 100 - route.congestionScore);
-      const congestionWeight = user.preferences.congestionTolerance === 'low' ? 0.4 : 0.2;
+      const congestionScore = Math.max(0, 100 - (route.congestionScore || 0));
+      const congestionWeight = user.preferences?.congestionTolerance === 'low' ? 0.4 : 0.2;
       score += congestionScore * congestionWeight;
 
       // 환승 점수 (적을수록 높은 점수)
-      const transferScore = Math.max(0, 100 - route.transfers * 25);
+      const transferScore = Math.max(0, 100 - (route.transfers || 0) * 25);
       score += transferScore * 0.2;
 
       // 인센티브 점수
@@ -454,9 +475,11 @@ export class RecommendationEngine {
   ): PersonalizedInsight[] {
     const insights: PersonalizedInsight[] = [];
 
+    if (!routes || routes.length === 0) return insights;
+
     // 혼잡도 기반 인사이트
     const bestRoute = routes[0];
-    if (bestRoute.congestionScore < 50) {
+    if (bestRoute && bestRoute.congestionScore < 50) {
       insights.push({
         type: 'congestion-tip',
         message: '현재 시간대는 평소보다 덜 혼잡합니다. 지금 출발하시면 편안한 이동이 가능해요!',
@@ -465,7 +488,7 @@ export class RecommendationEngine {
     }
 
     // 인센티브 인사이트
-    if (bestRoute.incentivePoints && bestRoute.incentivePoints > 0) {
+    if (bestRoute && bestRoute.incentivePoints && bestRoute.incentivePoints > 0) {
       insights.push({
         type: 'incentive-opportunity',
         message: `이 경로를 이용하시면 ${bestRoute.incentivePoints}포인트를 적립할 수 있어요!`,
@@ -513,10 +536,14 @@ export class RecommendationEngine {
    * 역 이름으로 역 정보 찾기
    */
   private findStationByName(name: string): StationInfo | null {
+    if (!name) return null;
+    
     const stations = dataStore.getAllStations();
+    if (!stations || stations.length === 0) return null;
+    
     return stations.find(station => 
-      station.name.includes(name) || 
-      station.id.includes(name.toLowerCase())
+      station?.name?.includes(name) || 
+      station?.id?.includes(name.toLowerCase())
     ) || null;
   }
 }

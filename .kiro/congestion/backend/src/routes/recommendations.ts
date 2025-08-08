@@ -1,7 +1,7 @@
 import express from 'express';
 import { recommendationEngine } from '../services/recommendationEngine';
 import { userBehaviorSimulation } from '../services/userBehaviorSimulation';
-import { authMiddleware } from '../middleware/auth';
+import { authMiddleware, AuthenticatedRequest } from '../middleware/auth';
 import { ApiResponse } from '../types';
 
 const router = express.Router();
@@ -10,26 +10,28 @@ const router = express.Router();
  * GET /api/user/recommendations
  * 개인화된 경로 추천 조회
  */
-router.get('/recommendations', authMiddleware, async (req, res) => {
+router.get('/recommendations', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const { origin, destination, departureTime } = req.query;
 
     // 필수 파라미터 검증
     if (!origin || !destination) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Origin and destination are required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     // 개인화된 추천 생성
@@ -60,25 +62,27 @@ router.get('/recommendations', authMiddleware, async (req, res) => {
  * GET /api/user/behavior-profile
  * 사용자 행동 프로필 조회
  */
-router.get('/behavior-profile', authMiddleware, async (req, res) => {
+router.get('/behavior-profile', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const behaviorProfile = userBehaviorSimulation.generateUserBehaviorProfile(userId);
     
     if (!behaviorProfile) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
         error: 'User behavior profile not found',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     res.json({
@@ -101,26 +105,28 @@ router.get('/behavior-profile', authMiddleware, async (req, res) => {
  * POST /api/user/behavior-prediction
  * 사용자 행동 예측
  */
-router.post('/behavior-prediction', authMiddleware, async (req, res) => {
+router.post('/behavior-prediction', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const { scenario } = req.body;
 
     // 시나리오 검증
     if (!scenario || !scenario.currentCongestion || !scenario.departureTime) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Valid scenario with currentCongestion and departureTime is required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const behaviorPrediction = userBehaviorSimulation.predictUserBehavior(userId, scenario);
@@ -145,25 +151,27 @@ router.post('/behavior-prediction', authMiddleware, async (req, res) => {
  * GET /api/user/alert-timing
  * 개인화된 알림 타이밍 계산
  */
-router.get('/alert-timing', authMiddleware, async (req, res) => {
+router.get('/alert-timing', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const { origin, destination, departureTime } = req.query;
 
     if (!origin || !destination) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Origin and destination are required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     // 추천 경로 생성하여 알림 타이밍 계산
@@ -198,25 +206,27 @@ router.get('/alert-timing', authMiddleware, async (req, res) => {
  * GET /api/user/route-alternatives
  * 대체 경로 추천 (혼잡 상황 대응)
  */
-router.get('/route-alternatives', authMiddleware, async (req, res) => {
+router.get('/route-alternatives', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const { origin, destination, currentRouteId, congestionLevel } = req.query;
 
     if (!origin || !destination) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Origin and destination are required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     // 전체 추천 경로 생성
@@ -261,25 +271,27 @@ router.get('/route-alternatives', authMiddleware, async (req, res) => {
  * POST /api/user/recommendation-feedback
  * 추천 결과에 대한 피드백 수집
  */
-router.post('/recommendation-feedback', authMiddleware, async (req, res) => {
+router.post('/recommendation-feedback', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const { recommendationId, selectedRouteId, rating, feedback } = req.body;
 
     if (!recommendationId || !selectedRouteId || rating === undefined) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'RecommendationId, selectedRouteId, and rating are required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     // 피드백 데이터 저장 (실제로는 데이터베이스에 저장)

@@ -1,6 +1,6 @@
 import express from 'express';
 import { feedbackIncentiveSystem, IncentiveActionType } from '../services/feedbackIncentiveSystem';
-import { authMiddleware } from '../middleware/auth';
+import { authMiddleware, AuthenticatedRequest } from '../middleware/auth';
 import { ApiResponse, CongestionLevel } from '../types';
 
 const router = express.Router();
@@ -9,15 +9,16 @@ const router = express.Router();
  * POST /api/feedback/congestion
  * 혼잡도 피드백 제출
  */
-router.post('/congestion', authMiddleware, async (req, res) => {
+router.post('/congestion', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const { 
@@ -30,31 +31,34 @@ router.post('/congestion', authMiddleware, async (req, res) => {
 
     // 필수 파라미터 검증
     if (!routeId || !predictedCongestion || !actualCongestion || rating === undefined) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'RouteId, predictedCongestion, actualCongestion, and rating are required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     // 혼잡도 레벨 검증
     const validCongestionLevels: CongestionLevel[] = ['low', 'medium', 'high'];
     if (!validCongestionLevels.includes(predictedCongestion) || 
         !validCongestionLevels.includes(actualCongestion)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Invalid congestion level. Must be low, medium, or high',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     // 평점 검증
     if (rating < 1 || rating > 5) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Rating must be between 1 and 5',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     // 피드백 제출
@@ -87,15 +91,16 @@ router.post('/congestion', authMiddleware, async (req, res) => {
  * POST /api/feedback/incentive
  * 행동 기반 인센티브 적립
  */
-router.post('/incentive', authMiddleware, async (req, res) => {
+router.post('/incentive', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const { actionType } = req.body;
@@ -110,11 +115,12 @@ router.post('/incentive', authMiddleware, async (req, res) => {
     ];
 
     if (!actionType || !validActionTypes.includes(actionType)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: `Invalid action type. Must be one of: ${validActionTypes.join(', ')}`,
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     // 인센티브 계산 및 적립
@@ -140,26 +146,28 @@ router.post('/incentive', authMiddleware, async (req, res) => {
  * GET /api/feedback/history
  * 사용자 피드백 히스토리 조회
  */
-router.get('/history', authMiddleware, async (req, res) => {
+router.get('/history', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const { limit } = req.query;
     const limitNumber = limit ? parseInt(limit as string) : 20;
 
     if (isNaN(limitNumber) || limitNumber < 1 || limitNumber > 100) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Limit must be a number between 1 and 100',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const history = feedbackIncentiveSystem.getUserFeedbackHistory(userId, limitNumber);
@@ -187,16 +195,17 @@ router.get('/history', authMiddleware, async (req, res) => {
  * GET /api/feedback/route-stats/:routeId
  * 경로별 피드백 통계 조회
  */
-router.get('/route-stats/:routeId', async (req, res) => {
+router.get('/route-stats/:routeId', async (req, res): Promise<void> => {
   try {
     const { routeId } = req.params;
 
     if (!routeId) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Route ID is required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const stats = feedbackIncentiveSystem.getRouteFeedbackStats(routeId);
@@ -221,15 +230,16 @@ router.get('/route-stats/:routeId', async (req, res) => {
  * GET /api/feedback/monthly-report
  * 월간 리포트 조회
  */
-router.get('/monthly-report', authMiddleware, async (req, res) => {
+router.get('/monthly-report', authMiddleware, async (req: AuthenticatedRequest, res): Promise<void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         error: 'User authentication required',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const report = feedbackIncentiveSystem.generateMonthlyReport(userId);
@@ -254,17 +264,18 @@ router.get('/monthly-report', authMiddleware, async (req, res) => {
  * GET /api/feedback/leaderboard
  * 인센티브 랭킹 조회
  */
-router.get('/leaderboard', async (req, res) => {
+router.get('/leaderboard', async (req, res): Promise<void> => {
   try {
     const { limit } = req.query;
     const limitNumber = limit ? parseInt(limit as string) : 10;
 
     if (isNaN(limitNumber) || limitNumber < 1 || limitNumber > 50) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Limit must be a number between 1 and 50',
         timestamp: new Date().toISOString()
       } as ApiResponse<null>);
+      return;
     }
 
     const leaderboard = feedbackIncentiveSystem.getIncentiveLeaderboard(limitNumber);
@@ -292,7 +303,7 @@ router.get('/leaderboard', async (req, res) => {
  * GET /api/feedback/stats
  * 전체 피드백 시스템 통계
  */
-router.get('/stats', async (req, res) => {
+router.get('/stats', async (req, res): Promise<void> => {
   try {
     // 전체 시스템 통계 생성 (시뮬레이션)
     const stats = {

@@ -13,12 +13,12 @@ const router = express.Router();
  * 현재 혼잡도 조회
  * GET /api/congestion/current
  */
-router.get('/current', optionalAuth, (req: AuthenticatedRequest, res: Response) => {
+router.get('/current', optionalAuth, (req: AuthenticatedRequest, res: Response): void => {
   const { 
     location, 
-    radius = 1000, 
+    radius = '1000', 
     transportTypes = 'subway,bus',
-    limit = 50 
+    limit = '50' 
   } = req.query;
 
   try {
@@ -26,22 +26,24 @@ router.get('/current', optionalAuth, (req: AuthenticatedRequest, res: Response) 
     let congestionData = congestionGenerator.generateCurrentCongestion();
 
     // 교통수단 타입 필터링
-    const allowedTypes = (transportTypes as string).split(',');
+    const allowedTypes = String(transportTypes || 'subway,bus').split(',');
     congestionData = congestionData.filter(data => 
       allowedTypes.includes(data.transportType)
     );
 
     // 위치 기반 필터링 (시뮬레이션)
-    if (location) {
-      const [lat, lng] = (location as string).split(',').map(Number);
-      if (!isNaN(lat) && !isNaN(lng)) {
+    if (location && typeof location === 'string') {
+      const coords = location.split(',').map(Number);
+      const lat = coords[0];
+      const lng = coords[1];
+      if (lat !== undefined && lng !== undefined && !isNaN(lat) && !isNaN(lng)) {
         // 간단한 거리 기반 필터링 (실제로는 더 정교한 지리적 계산 필요)
         congestionData = congestionData.slice(0, Math.floor(congestionData.length * 0.3));
       }
     }
 
     // 결과 제한
-    const limitNum = Math.min(parseInt(limit as string) || 50, 100);
+    const limitNum = Math.min(parseInt(String(limit)) || 50, 100);
     congestionData = congestionData.slice(0, limitNum);
 
     // 사용자별 개인화 (로그인된 경우)
@@ -57,8 +59,13 @@ router.get('/current', optionalAuth, (req: AuthenticatedRequest, res: Response) 
     // 응답 데이터 구성
     const responseData = {
       timestamp: new Date().toISOString(),
-      location: location ? { lat: parseFloat((location as string).split(',')[0]), lng: parseFloat((location as string).split(',')[1]) } : null,
-      radius: parseInt(radius as string),
+      location: location && typeof location === 'string' ? (() => {
+        const coords = location.split(',');
+        const lat = coords[0];
+        const lng = coords[1];
+        return lat && lng ? { lat: parseFloat(lat), lng: parseFloat(lng) } : null;
+      })() : null,
+      radius: parseInt(String(radius)),
       transportTypes: allowedTypes,
       totalResults: congestionData.length,
       data: congestionData.map(data => ({
@@ -98,7 +105,7 @@ router.get('/current', optionalAuth, (req: AuthenticatedRequest, res: Response) 
  * 혼잡도 예측 조회
  * GET /api/congestion/prediction
  */
-router.get('/prediction', optionalAuth, async (req: AuthenticatedRequest, res: Response) => {
+router.get('/prediction', optionalAuth, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const { 
     routeId, 
     timeRange = '3', 
@@ -108,38 +115,41 @@ router.get('/prediction', optionalAuth, async (req: AuthenticatedRequest, res: R
 
   try {
     if (!routeId) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Route ID is required',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
     // 노선 존재 확인
-    const route = dataStore.getRouteById(routeId as string);
+    const route = dataStore.getRouteById(String(routeId));
     if (!route) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
         error: 'Route not found',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
-    const timeHours = Math.min(parseInt(timeRange as string), 6); // 최대 6시간
-    const granularityMinutes = Math.max(parseInt(granularity as string), 5); // 최소 5분
+    const timeHours = Math.min(parseInt(String(timeRange)), 6); // 최대 6시간
+    const granularityMinutes = Math.max(parseInt(String(granularity)), 5); // 최소 5분
 
     // 예측 데이터 조회
     const prediction = await integratedPredictionService.getRoutePrediction(
-      routeId as string, 
+      String(routeId), 
       timeHours
     );
 
     if (!prediction) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
         error: 'Prediction data not available',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
     // 사용자 개인화 적용
@@ -196,26 +206,36 @@ router.get('/prediction', optionalAuth, async (req: AuthenticatedRequest, res: R
  * 특정 노선의 실시간 혼잡도
  * GET /api/congestion/route/:routeId
  */
-router.get('/route/:routeId', optionalAuth, (req: AuthenticatedRequest, res: Response) => {
+router.get('/route/:routeId', optionalAuth, (req: AuthenticatedRequest, res: Response): void => {
   const { routeId } = req.params;
   const { includeStations = 'true' } = req.query;
 
   try {
+    if (!routeId) {
+      res.status(400).json({
+        success: false,
+        error: 'Route ID is required',
+        timestamp: new Date().toISOString()
+      });
+      return;
+    }
+
     // 노선 존재 확인
     const route = dataStore.getRouteById(routeId);
     if (!route) {
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
         error: 'Route not found',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
     // 노선별 실시간 혼잡도 생성
     const congestionData = congestionGenerator.generateRouteRealtime(routeId);
 
     // 역별 상세 정보 포함 여부
-    const includeStationDetails = includeStations === 'true';
+    const includeStationDetails = String(includeStations || 'true') === 'true';
 
     const responseData = {
       route: {
@@ -266,7 +286,7 @@ router.get('/route/:routeId', optionalAuth, (req: AuthenticatedRequest, res: Res
  * 혼잡도 히스토리 조회
  * GET /api/congestion/history
  */
-router.get('/history', optionalAuth, (req: AuthenticatedRequest, res: Response) => {
+router.get('/history', optionalAuth, (req: AuthenticatedRequest, res: Response): void => {
   const { 
     routeId, 
     startTime, 
@@ -277,23 +297,25 @@ router.get('/history', optionalAuth, (req: AuthenticatedRequest, res: Response) 
 
   try {
     if (!routeId) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Route ID is required',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
     // 시간 범위 검증
-    const start = startTime ? new Date(startTime as string) : new Date(Date.now() - 24 * 60 * 60 * 1000);
-    const end = endTime ? new Date(endTime as string) : new Date();
+    const start = startTime ? new Date(String(startTime)) : new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const end = endTime ? new Date(String(endTime)) : new Date();
 
     if (start >= end) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Start time must be before end time',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
     // 과거 데이터 생성 (시뮬레이션)
@@ -306,19 +328,19 @@ router.get('/history', optionalAuth, (req: AuthenticatedRequest, res: Response) 
     });
 
     // 간격에 따른 데이터 집계
-    const aggregatedData = aggregateDataByInterval(filteredData, interval as string);
+    const aggregatedData = aggregateDataByInterval(filteredData, String(interval));
 
     // 결과 제한
-    const limitNum = Math.min(parseInt(limit as string) || 100, 500);
+    const limitNum = Math.min(parseInt(String(limit)) || 100, 500);
     const limitedData = aggregatedData.slice(0, limitNum);
 
     const responseData = {
-      routeId: routeId as string,
-      routeName: getRouteName(routeId as string),
+      routeId: String(routeId),
+      routeName: getRouteName(String(routeId)),
       timeRange: {
         start: start.toISOString(),
         end: end.toISOString(),
-        interval: interval as string
+        interval: String(interval)
       },
       totalDataPoints: limitedData.length,
       statistics: {
@@ -351,20 +373,21 @@ router.get('/history', optionalAuth, (req: AuthenticatedRequest, res: Response) 
  * 혼잡도 비교 (여러 노선)
  * GET /api/congestion/compare
  */
-router.get('/compare', optionalAuth, async (req: AuthenticatedRequest, res: Response) => {
+router.get('/compare', optionalAuth, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const { routeIds, timeRange = '2' } = req.query;
 
   try {
     if (!routeIds) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Route IDs are required',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
-    const routeIdArray = (routeIds as string).split(',').slice(0, 5); // 최대 5개 노선
-    const timeHours = Math.min(parseInt(timeRange as string), 4); // 최대 4시간
+    const routeIdArray = String(routeIds).split(',').slice(0, 5); // 최대 5개 노선
+    const timeHours = Math.min(parseInt(String(timeRange)), 4); // 최대 4시간
 
     // 각 노선별 예측 데이터 조회
     const predictions = await integratedPredictionService.getMultipleRoutePredictions(
@@ -450,7 +473,7 @@ router.get('/compare', optionalAuth, async (req: AuthenticatedRequest, res: Resp
  * 실시간 업데이트를 위한 WebSocket 정보
  * GET /api/congestion/websocket-info
  */
-router.get('/websocket-info', (req: Request, res: Response) => {
+router.get('/websocket-info', (req: Request, res: Response): void => {
   res.json({
     success: true,
     data: {
@@ -579,11 +602,21 @@ function getIntervalMs(interval: string): number {
     '1d': 24 * 60 * 60 * 1000
   };
   
-  return intervalMap[interval] || intervalMap['1h'];
+  return intervalMap[interval] ?? intervalMap['1h']!;
 }
 
 function aggregateBucket(bucket: any[], bucketStart: Date): any {
-  const congestionValues = bucket.map(item => item.congestionPercentage);
+  const congestionValues = bucket.map(item => item.congestionPercentage).filter(val => val !== undefined);
+  
+  if (congestionValues.length === 0) {
+    return {
+      timestamp: bucketStart.toISOString(),
+      averageCongestion: 0,
+      maxCongestion: 0,
+      minCongestion: 0,
+      dataPoints: bucket.length
+    };
+  }
   
   return {
     timestamp: bucketStart.toISOString(),

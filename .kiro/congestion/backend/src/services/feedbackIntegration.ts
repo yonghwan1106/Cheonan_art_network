@@ -57,22 +57,24 @@ export class FeedbackIntegrationService {
     // 코멘트 생성
     const comment = this.generateFeedbackComment(predictedLevel, actualLevel, rating);
 
-    const feedback: FeedbackData = {
-      id: generateId('feedback'),
+    const feedbackInput: Omit<FeedbackData, 'id'> = {
       userId,
       routeId,
       timestamp: getCurrentTimestamp(),
       predictedCongestion: predictedLevel,
       actualCongestion: actualLevel,
       rating,
-      comment,
+      ...(comment !== undefined && { comment }),
       verified: Math.random() > 0.1 // 90% 검증됨
     };
 
     // 데이터 저장소에 저장
-    dataStore.createFeedback(feedback);
+    const savedFeedback = dataStore.createFeedback(feedbackInput);
+    if (!savedFeedback) {
+      throw new Error('Failed to create feedback');
+    }
     
-    return feedback;
+    return savedFeedback;
   }
 
   /**
@@ -324,7 +326,7 @@ export class FeedbackIntegrationService {
     predicted: CongestionLevel, 
     actual: CongestionLevel, 
     rating: number
-  ): string {
+  ): string | undefined {
     const comments = {
       accurate: [
         '예측이 정확했습니다',
@@ -407,7 +409,11 @@ export class FeedbackIntegrationService {
     }
 
     // 코멘트 분석 (키워드 기반)
-    const comments = feedbacks.map(f => f.comment || '').join(' ').toLowerCase();
+    const comments = feedbacks
+      .map(f => f.comment || '')
+      .filter(comment => comment.length > 0)
+      .join(' ')
+      .toLowerCase();
     
     if (comments.includes('날씨') || comments.includes('비') || comments.includes('눈')) {
       issues.push('날씨 영향 과소평가');
@@ -494,12 +500,16 @@ export class FeedbackIntegrationService {
     // 정확도 비율 계산
     Object.keys(accuracyByHour).forEach(hour => {
       const h = parseInt(hour);
-      accuracyByHour[h] = accuracyByHour[h] / countsByHour[h];
+      if (countsByHour[h] && countsByHour[h] > 0) {
+        accuracyByHour[h] = (accuracyByHour[h] || 0) / countsByHour[h];
+      } else {
+        accuracyByHour[h] = 0;
+      }
     });
 
     // 정확도가 낮은 시간대 찾기 (70% 미만)
     const worstHours = Object.entries(accuracyByHour)
-      .filter(([_, accuracy]) => accuracy < 0.7)
+      .filter(([_, accuracy]) => typeof accuracy === 'number' && accuracy < 0.7)
       .map(([hour, _]) => parseInt(hour))
       .sort();
 
@@ -509,6 +519,10 @@ export class FeedbackIntegrationService {
   private calculateUserReliability(userFeedbacks: FeedbackData[]): number {
     // 사용자의 과거 피드백 일관성 분석
     let reliability = 1.0;
+    
+    if (userFeedbacks.length === 0) {
+      return reliability;
+    }
     
     // 극단적인 평점만 주는 사용자는 신뢰도 감소
     const ratings = userFeedbacks.map(f => f.rating);
@@ -556,6 +570,7 @@ export class FeedbackIntegrationService {
       }
       
       weekFeedbacks = weekFeedbacks.filter(f => {
+        if (!f || !f.timestamp) return false;
         const feedbackDate = new Date(f.timestamp);
         return feedbackDate >= startDate && feedbackDate < endDate;
       });

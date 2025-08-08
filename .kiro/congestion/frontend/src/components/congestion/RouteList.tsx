@@ -105,12 +105,13 @@ export const RouteList: React.FC<RouteListProps> = ({ data, onRouteClick }) => {
           aValue = a.passengerCount;
           bValue = b.passengerCount;
           break;
-        case 'prediction':
+        case 'prediction': {
           const aNext = a.prediction?.nextHour === 'low' ? 0 : a.prediction?.nextHour === 'medium' ? 1 : 2;
           const bNext = b.prediction?.nextHour === 'low' ? 0 : b.prediction?.nextHour === 'medium' ? 1 : 2;
           aValue = aNext;
           bValue = bNext;
           break;
+        }
         default:
           aValue = a.congestionPercentage;
           bValue = b.congestionPercentage;

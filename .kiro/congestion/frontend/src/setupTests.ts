@@ -191,18 +191,22 @@ afterAll(() => {
 });
 
 // Global test utilities
+// TypeScript module augmentation for jest-dom matchers
+interface CustomMatchers<R = unknown> {
+  toBeInTheDocument(): R;
+  toHaveClass(className: string): R;
+  toHaveFocus(): R;
+  toBeVisible(): R;
+  toBeDisabled(): R;
+  toHaveAttribute(attr: string, value?: string): R;
+  toHaveTextContent(text: string | RegExp): R;
+  toHaveValue(value: string | number): R;
+}
+
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
-    interface Matchers<R> {
-      toBeInTheDocument(): R;
-      toHaveClass(className: string): R;
-      toHaveFocus(): R;
-      toBeVisible(): R;
-      toBeDisabled(): R;
-      toHaveAttribute(attr: string, value?: string): R;
-      toHaveTextContent(text: string | RegExp): R;
-      toHaveValue(value: string | number): R;
-    }
+    interface Matchers<R> extends CustomMatchers<R> {}
   }
 }
 

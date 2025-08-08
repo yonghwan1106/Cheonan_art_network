@@ -9,34 +9,37 @@ const router = express.Router();
 /**
  * 사용자 등록 (데모용 하드코딩된 사용자)
  */
-router.post('/register', (req: Request, res: Response) => {
+router.post('/register', (req: Request, res: Response): void => {
   const { email, name, password } = req.body;
 
   // 입력 검증
   if (!email || !name || !password) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Email, name, and password are required',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   if (!validators.isValidEmail(email)) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Invalid email format',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   // 기존 사용자 확인
   const existingUser = dataStore.getUserByEmail(email);
   if (existingUser) {
-    return res.status(409).json({
+    res.status(409).json({
       success: false,
       error: 'User already exists',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   // 기본 선호도 설정
@@ -76,16 +79,17 @@ router.post('/register', (req: Request, res: Response) => {
 /**
  * 사용자 로그인
  */
-router.post('/login', (req: Request, res: Response) => {
+router.post('/login', (req: Request, res: Response): void => {
   const { email, password } = req.body;
 
   // 입력 검증
   if (!email || !password) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Email and password are required',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   // 데모용 하드코딩된 로그인 (실제로는 비밀번호 해시 비교)
@@ -100,11 +104,12 @@ router.post('/login', (req: Request, res: Response) => {
   );
 
   if (!validCredential) {
-    return res.status(401).json({
+    res.status(401).json({
       success: false,
       error: 'Invalid email or password',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   // 사용자 조회 또는 생성
@@ -156,7 +161,7 @@ router.post('/login', (req: Request, res: Response) => {
 /**
  * 사용자 로그아웃
  */
-router.post('/logout', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.post('/logout', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   if (req.sessionId) {
     destroySession(req.sessionId);
   }
@@ -171,7 +176,7 @@ router.post('/logout', authenticateSession, (req: AuthenticatedRequest, res: Res
 /**
  * 현재 사용자 정보 조회
  */
-router.get('/me', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.get('/me', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   res.json({
     success: true,
     data: { user: req.user },
@@ -182,7 +187,7 @@ router.get('/me', authenticateSession, (req: AuthenticatedRequest, res: Response
 /**
  * 사용자 프로필 업데이트
  */
-router.put('/profile', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.put('/profile', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const { name, preferences } = req.body;
   const userId = req.user!.id;
 
@@ -196,27 +201,30 @@ router.put('/profile', authenticateSession, (req: AuthenticatedRequest, res: Res
     // 선호도 검증
     const validTolerances = ['low', 'medium', 'high'];
     if (preferences.congestionTolerance && !validTolerances.includes(preferences.congestionTolerance)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Invalid congestion tolerance level',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
     if (preferences.maxWalkingDistance && (preferences.maxWalkingDistance < 0 || preferences.maxWalkingDistance > 2000)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Walking distance must be between 0 and 2000 meters',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
     if (preferences.maxTransfers && (preferences.maxTransfers < 0 || preferences.maxTransfers > 5)) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: 'Max transfers must be between 0 and 5',
         timestamp: new Date().toISOString()
       });
+      return;
     }
 
     updates.preferences = { ...req.user!.preferences, ...preferences };
@@ -225,11 +233,12 @@ router.put('/profile', authenticateSession, (req: AuthenticatedRequest, res: Res
   const updatedUser = dataStore.updateUser(userId, updates);
 
   if (!updatedUser) {
-    return res.status(404).json({
+    res.status(404).json({
       success: false,
       error: 'User not found',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   res.json({
@@ -242,25 +251,27 @@ router.put('/profile', authenticateSession, (req: AuthenticatedRequest, res: Res
 /**
  * 자주 이용하는 경로 추가
  */
-router.post('/frequent-routes', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.post('/frequent-routes', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const { origin, destination, frequency, preferredTime, transportType } = req.body;
   const userId = req.user!.id;
 
   // 입력 검증
   if (!origin || !destination || !frequency || !preferredTime || !transportType) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'All route fields are required',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   if (!validators.isValidTransportType(transportType)) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Invalid transport type',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   // 새 경로 생성
@@ -282,11 +293,12 @@ router.post('/frequent-routes', authenticateSession, (req: AuthenticatedRequest,
   });
 
   if (!updatedUser) {
-    return res.status(404).json({
+    res.status(404).json({
       success: false,
       error: 'User not found',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   res.status(201).json({
@@ -299,7 +311,7 @@ router.post('/frequent-routes', authenticateSession, (req: AuthenticatedRequest,
 /**
  * 자주 이용하는 경로 삭제
  */
-router.delete('/frequent-routes/:routeId', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.delete('/frequent-routes/:routeId', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const { routeId } = req.params;
   const userId = req.user!.id;
 
@@ -307,11 +319,12 @@ router.delete('/frequent-routes/:routeId', authenticateSession, (req: Authentica
   const updatedRoutes = currentUser.frequentRoutes.filter(route => route.id !== routeId);
 
   if (updatedRoutes.length === currentUser.frequentRoutes.length) {
-    return res.status(404).json({
+    res.status(404).json({
       success: false,
       error: 'Route not found',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   const updatedUser = dataStore.updateUser(userId, {
@@ -328,7 +341,7 @@ router.delete('/frequent-routes/:routeId', authenticateSession, (req: Authentica
 /**
  * 사용자 포인트 조회
  */
-router.get('/points', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.get('/points', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const points = req.user!.points;
   
   // 포인트 히스토리 시뮬레이션
@@ -357,25 +370,27 @@ router.get('/points', authenticateSession, (req: AuthenticatedRequest, res: Resp
 /**
  * 포인트 사용 (보상 교환)
  */
-router.post('/points/redeem', authenticateSession, (req: AuthenticatedRequest, res: Response) => {
+router.post('/points/redeem', authenticateSession, (req: AuthenticatedRequest, res: Response): void => {
   const { rewardId, cost } = req.body;
   const userId = req.user!.id;
   const currentPoints = req.user!.points;
 
   if (!rewardId || !cost) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Reward ID and cost are required',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   if (currentPoints < cost) {
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       error: 'Insufficient points',
       timestamp: new Date().toISOString()
     });
+    return;
   }
 
   // 포인트 차감

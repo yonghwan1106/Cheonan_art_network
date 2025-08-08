@@ -167,6 +167,12 @@ export class IntegratedPredictionService {
     
     // 최근 예측 데이터 확인
     const recentPredictions = dataStore.getPredictionsByRoute(routeId);
+    if (recentPredictions.length === 0) {
+      // 새로운 예측 생성
+      const context = await this.buildPredictionContext(routeId, currentTime, timeHorizon);
+      return await mockPredictionEngine.predictCongestion(context);
+    }
+    
     const latestPrediction = recentPredictions
       .sort((a, b) => new Date(b.predictionTime).getTime() - new Date(a.predictionTime).getTime())[0];
 
@@ -220,13 +226,17 @@ export class IntegratedPredictionService {
     const predictions = await this.getRoutePrediction(routeId, 1);
     
     // 비교 분석
-    let comparison = {
+    let comparison: {
+      accuracy: number;
+      avgError: number;
+      trend: 'improving' | 'stable' | 'declining';
+    } = {
       accuracy: 0,
       avgError: 0,
-      trend: 'stable' as const
+      trend: 'stable'
     };
 
-    if (predictions && current.length > 0) {
+    if (predictions && predictions.predictions && current.length > 0) {
       // 현재 시간과 가장 가까운 예측 찾기
       const now = new Date();
       const closestPrediction = predictions.predictions.find(p => {
@@ -398,7 +408,9 @@ export class IntegratedPredictionService {
     const allRoutes = dataStore.getAllRoutes();
     const users = dataStore.getAllUsers();
     
-    if (users.length === 0 || allRoutes.length === 0) return;
+    if (!users || users.length === 0 || !allRoutes || allRoutes.length === 0) {
+      return;
+    }
 
     // 랜덤하게 몇 개의 피드백 생성
     const feedbackCount = Math.floor(Math.random() * 5) + 1;
@@ -407,17 +419,23 @@ export class IntegratedPredictionService {
       const randomUser = users[Math.floor(Math.random() * users.length)];
       const randomRoute = allRoutes[Math.floor(Math.random() * allRoutes.length)];
       
+      if (!randomUser || !randomRoute) continue;
+      
       // 랜덤한 예측/실제 레벨 생성
       const levels = ['low', 'medium', 'high'] as const;
       const predictedLevel = levels[Math.floor(Math.random() * levels.length)];
       const actualLevel = levels[Math.floor(Math.random() * levels.length)];
       
-      feedbackIntegration.generateMockFeedback(
-        randomUser.id,
-        randomRoute.id,
-        predictedLevel,
-        actualLevel
-      );
+      try {
+        feedbackIntegration.generateMockFeedback(
+          randomUser.id,
+          randomRoute.id,
+          predictedLevel,
+          actualLevel
+        );
+      } catch (error) {
+        console.warn('Failed to generate mock feedback:', error);
+      }
     }
   }
 
@@ -426,10 +444,10 @@ export class IntegratedPredictionService {
     currentTime: Date, 
     timeHorizon: number
   ): Promise<PredictionContext> {
-    const historicalData = dataStore.getCongestionDataByRoute(routeId, 24);
+    const historicalData = dataStore.getCongestionDataByRoute(routeId, 24) || [];
     const weatherForecast = weatherGenerator.generateWeatherForecast(timeHorizon);
     const activeEvents = eventGenerator.getActiveEvents()
-      .filter(e => e.location.routeIds.includes(routeId));
+      .filter(e => e && e.location && e.location.routeIds && e.location.routeIds.includes(routeId));
 
     return {
       routeId,
