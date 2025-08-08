@@ -1,14 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>개인 맞춤형 혼잡도 예측 알림 서비스</title>
-    <meta name="description" content="AI 기반 대중교통 혼잡도 예측 및 개인화된 경로 추천 서비스" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스마트 교통 예측 시스템 - 테스트</title>
+</head>
+<body>
+    <h1>🚇 스마트 교통 예측 시스템</h1>
+    <p>테스트 페이지입니다. 이 메시지가 보인다면 Vercel 배포가 성공한 것입니다!</p>
+    <p>현재 시간: <span id="time"></span></p>
+    
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString('ko-KR');
+        console.log('페이지가 성공적으로 로드되었습니다!');
+    </script>
+</body>
 </html>
