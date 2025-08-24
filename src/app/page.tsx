@@ -26,7 +26,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                <Button size="lg" className="bg-white text-blue-800 hover:bg-gray-100 hover:text-blue-900 font-semibold">
                   지금 시작하기
                 </Button>
               </Link>
