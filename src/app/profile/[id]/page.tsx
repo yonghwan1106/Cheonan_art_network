@@ -15,17 +15,13 @@ import {
   Heart,
   MessageSquare,
   Share2,
-  ExternalLink,
   Mail,
-  Phone,
   Palette,
   Users,
-  TrendingUp,
-  ChevronLeft,
-  ChevronRight
+  TrendingUp
 } from 'lucide-react';
-import { mockArtists } from '../../../data/mockArtists';
-import { mockCurators } from '../../../data/mockCurators';
+import { mockArtists, Artist } from '../../../data/mockArtists';
+import { mockCurators, Curator } from '../../../data/mockCurators';
 
 export default function ProfilePage() {
   const params = useParams();
@@ -33,7 +29,6 @@ export default function ProfilePage() {
   
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // 프로필 데이터 찾기 (실제로는 API 호출)
   const artist = mockArtists.find(a => a.id === id);
@@ -47,16 +42,13 @@ export default function ProfilePage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">프로필을 찾을 수 없습니다</h1>
-            <Button href="/">홈으로 돌아가기</Button>
+            <Button onClick={() => window.location.href = '/'}>홈으로 돌아가기</Button>
           </div>
         </div>
       </Layout>
     );
   }
 
-  const portfolioImages = profileType === 'artist' ? 
-    (profile as typeof artist).portfolio.map(work => work.imageUrl || '/images/default-artwork.jpg') : 
-    [];
 
   return (
     <Layout>
@@ -89,8 +81,8 @@ export default function ProfilePage() {
                     <div className="flex items-center">
                       <MapPin className="w-4 h-4 mr-1" />
                       {profileType === 'artist' ? 
-                        (profile as typeof artist).location : 
-                        (profile as typeof curator).organization
+                        (profile as Artist).location : 
+                        (profile as Curator).organization
                       }
                     </div>
                     <div className="flex items-center">
@@ -152,7 +144,7 @@ export default function ProfilePage() {
                 <Card className="p-6">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">포트폴리오</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {(profile as typeof artist).portfolio.map((work, index) => (
+                    {(profile as Artist).portfolio?.map((work, index) => (
                       <div key={work.id} className="group cursor-pointer">
                         <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden mb-3">
                           {work.imageUrl ? (
@@ -185,7 +177,7 @@ export default function ProfilePage() {
                 <Card className="p-6">
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">주요 프로젝트</h2>
                   <div className="space-y-6">
-                    {(profile as typeof curator).pastProjects.map((project) => (
+                    {(profile as Curator).pastProjects?.map((project) => (
                       <div key={project.id} className="border-l-4 border-blue-500 pl-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -212,32 +204,34 @@ export default function ProfilePage() {
               )}
 
               {/* 수상 경력 */}
-              <Card className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">수상 경력</h2>
-                <div className="space-y-3">
-                  {profile.awards.map((award, index) => (
-                    <div key={index} className="flex items-center space-x-3">
-                      <Award className="w-5 h-5 text-yellow-600" />
-                      <span className="text-gray-700">{award}</span>
-                    </div>
-                  ))}
-                </div>
-              </Card>
+              {profileType === 'artist' && (
+                <Card className="p-6">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">수상 경력</h2>
+                  <div className="space-y-3">
+                    {(profile as Artist).awards?.map((award, index) => (
+                      <div key={index} className="flex items-center space-x-3">
+                        <Award className="w-5 h-5 text-yellow-600" />
+                        <span className="text-gray-700">{award}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              )}
 
               {/* 전시/공연 이력 */}
-              <Card className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  {profileType === 'artist' ? '전시 이력' : '주요 행사'}
-                </h2>
-                <div className="space-y-3">
-                  {profile.exhibitions.map((exhibition, index) => (
-                    <div key={index} className="flex items-center space-x-3">
-                      <Calendar className="w-5 h-5 text-blue-600" />
-                      <span className="text-gray-700">{exhibition}</span>
-                    </div>
-                  ))}
-                </div>
-              </Card>
+              {profileType === 'artist' && (
+                <Card className="p-6">
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">전시 이력</h2>
+                  <div className="space-y-3">
+                    {(profile as Artist).exhibitions?.map((exhibition, index) => (
+                      <div key={index} className="flex items-center space-x-3">
+                        <Calendar className="w-5 h-5 text-blue-600" />
+                        <span className="text-gray-700">{exhibition}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              )}
             </div>
 
             {/* 사이드바 */}
@@ -256,7 +250,7 @@ export default function ProfilePage() {
                       <div>
                         <label className="text-sm font-medium text-gray-600">전문 분야</label>
                         <div className="flex flex-wrap gap-2 mt-1">
-                          {(profile as typeof artist).genres.map((genre) => (
+                          {(profile as Artist).genres?.map((genre) => (
                             <span key={genre} className="px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded">
                               {genre}
                             </span>
@@ -266,7 +260,7 @@ export default function ProfilePage() {
                       <div>
                         <label className="text-sm font-medium text-gray-600">작업 스타일</label>
                         <div className="flex flex-wrap gap-2 mt-1">
-                          {(profile as typeof artist).workStyle.map((style) => (
+                          {(profile as Artist).workStyle?.map((style) => (
                             <span key={style} className="px-2 py-1 bg-purple-100 text-purple-800 text-sm rounded">
                               {style}
                             </span>
@@ -276,7 +270,7 @@ export default function ProfilePage() {
                       <div>
                         <label className="text-sm font-medium text-gray-600">희망 예산</label>
                         <p className="text-gray-900">
-                          {((profile as typeof artist).preferredBudget.min / 10000).toFixed(0)}만원 ~ {((profile as typeof artist).preferredBudget.max / 10000).toFixed(0)}만원
+                          {((profile as Artist).preferredBudget?.min / 10000)?.toFixed(0) || 0}만원 ~ {((profile as Artist).preferredBudget?.max / 10000)?.toFixed(0) || 0}만원
                         </p>
                       </div>
                     </>
@@ -286,16 +280,16 @@ export default function ProfilePage() {
                     <>
                       <div>
                         <label className="text-sm font-medium text-gray-600">소속 기관</label>
-                        <p className="text-gray-900">{(profile as typeof curator).organization}</p>
+                        <p className="text-gray-900">{(profile as Curator).organization}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-600">직책</label>
-                        <p className="text-gray-900">{(profile as typeof curator).position}</p>
+                        <p className="text-gray-900">{(profile as Curator).position}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-600">전문 분야</label>
                         <div className="flex flex-wrap gap-2 mt-1">
-                          {(profile as typeof curator).specialization.map((spec) => (
+                          {(profile as Curator).specialization?.map((spec) => (
                             <span key={spec} className="px-2 py-1 bg-green-100 text-green-800 text-sm rounded">
                               {spec}
                             </span>

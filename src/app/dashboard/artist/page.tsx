@@ -12,7 +12,6 @@ import {
   MessageSquare, 
   Award,
   Eye,
-  Users,
   Star,
   ArrowUpRight,
   Plus,

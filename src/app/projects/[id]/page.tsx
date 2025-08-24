@@ -10,7 +10,6 @@ import {
   Calendar, 
   MapPin, 
   Users, 
-  Award, 
   Heart,
   Share2,
   Clock,
@@ -24,7 +23,6 @@ import {
   ExternalLink,
   ArrowRight,
   Info,
-  Target,
   Gift
 } from 'lucide-react';
 import { mockProjects } from '../../../data/mockProjects';
@@ -48,7 +46,7 @@ export default function ProjectDetailPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">프로젝트를 찾을 수 없습니다</h1>
-            <Button href="/projects">프로젝트 목록으로</Button>
+            <Button onClick={() => window.location.href = '/projects'}>프로젝트 목록으로</Button>
           </div>
         </div>
       </Layout>

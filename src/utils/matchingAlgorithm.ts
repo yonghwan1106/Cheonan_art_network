@@ -135,7 +135,7 @@ function predictAudienceReaction(artist: Artist, project: Project, audienceData:
   return Math.min(100, predictedScore);
 }
 
-function getGenrePopularity(genre: string, audienceData: AudienceData): number {
+function getGenrePopularity(genre: string, _audienceData: AudienceData): number {
   const popularityMap: { [key: string]: number } = {
     'painting': 0.8,
     'sculpture': 0.6,

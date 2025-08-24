@@ -8,7 +8,7 @@ import ArtistMatchCard from '../../components/features/matching/ArtistMatchCard'
 import { mockArtists } from '../../data/mockArtists';
 import { mockCurators } from '../../data/mockCurators';
 import { mockProjects } from '../../data/mockProjects';
-import { mockAudience } from '../../data/mockAudience';
+import { mockAudienceData } from '../../data/mockAudience';
 import { generateMatchingResults } from '../../utils/matchingAlgorithm';
 import { Filter, Users, Clock, DollarSign, RefreshCw, Sparkles } from 'lucide-react';
 
@@ -22,7 +22,7 @@ export default function MatchingPage() {
       mockProjects[0], 
       mockArtists, 
       mockCurators[0], 
-      mockAudience.data
+      mockAudienceData
     )
   );
 
@@ -41,7 +41,7 @@ export default function MatchingPage() {
         project,
         mockArtists,
         curator,
-        mockAudience.data
+        mockAudienceData
       );
       setMatchingResults(results);
       setIsLoading(false);
@@ -60,7 +60,7 @@ export default function MatchingPage() {
         selectedProject,
         mockArtists,
         curator,
-        mockAudience.data
+        mockAudienceData
       );
       setMatchingResults(results);
     }
@@ -75,8 +75,8 @@ export default function MatchingPage() {
   const filteredResults = matchingResults.filter(result => {
     const scoreFilter = 
       filterScore === 'all' ||
-      (filterScore === '80+' && result.score >= 80) ||
-      (filterScore === '60+' && result.score >= 60);
+      (filterScore === '80+' && result.totalScore >= 80) ||
+      (filterScore === '60+' && result.totalScore >= 60);
     
     const locationFilter = 
       filterLocation === 'all' ||
@@ -102,7 +102,7 @@ export default function MatchingPage() {
                 최신 AI 알고리즘으로 프로젝트에 가장 적합한 예술가를 실시간 추천합니다.
               </p>
               <div className="mt-3 text-sm text-blue-600">
-                현재 {mockAudience.metadata.totalAudience.toLocaleString()}명의 관람객 데이터를 기반으로 분석
+                현재 AI 알고리즘으로 관람객 데이터를 기반으로 분석
               </div>
             </div>
             <Button 
