@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites 
+  name="CI Pipeline" 
+  tests="6" 
+  failures="6" 
+  time="0.003"
+>
+  
+  <testsuite 
+    name="lint" 
+    tests="1" 
+    failures="1" 
+    time="0.001"
+  >
+    
+    <testcase 
+      classname="CI.lint" 
+      name="Code linting and formatting" 
+      time="0.001"
+      >
+      <failure message="Cannot access 'process' before initialization" type="StageFailure">
+        Cannot access 'process' before initialization
+      </failure>
+    </testcase>
+    
+  </testsuite>
+  <testsuite 
+    name="type-check" 
+    tests="1" 
+    failures="1" 
+    time="0.000"
+  >
+    
+    <testcase 
+      classname="CI.type-check" 
+      name="TypeScript type checking" 
+      time="0.000"
+      >
+      <failure message="Cannot access 'process' before initialization" type="StageFailure">
+        Cannot access 'process' before initialization
+      </failure>
+    </testcase>
+    
+  </testsuite>
+  <testsuite 
+    name="unit" 
+    tests="1" 
+    failures="1" 
+    time="0.000"
+  >
+    
+    <testcase 
+      classname="CI.unit" 
+      name="Unit tests" 
+      time="0.000"
+      >
+      <failure message="Cannot access 'process' before initialization" type="StageFailure">
+        Cannot access 'process' before initialization
+      </failure>
+    </testcase>
+    
+  </testsuite>
+  <testsuite 
+    name="integration" 
+    tests="1" 
+    failures="1" 
+    time="0.000"
+  >
+    
+    <testcase 
+      classname="CI.integration" 
+      name="Integration tests" 
+      time="0.000"
+      >
+      <failure message="Cannot access 'process' before initialization" type="StageFailure">
+        Cannot access 'process' before initialization
+      </failure>
+    </testcase>
+    
+  </testsuite>
+  <testsuite 
+    name="performance" 
+    tests="1" 
+    failures="1" 
+    time="0.000"
+  >
+    
+    <testcase 
+      classname="CI.performance" 
+      name="Performance tests" 
+      time="0.000"
+      >
+      <failure message="Cannot access 'process' before initialization" type="StageFailure">
+        Cannot access 'process' before initialization
+      </failure>
+    </testcase>
+    
+  </testsuite>
+  <testsuite 
+    name="e2e" 
+    tests="1" 
+    failures="1" 
+    time="0.000"
+  >
+    
+    <testcase 
+      classname="CI.e2e" 
+      name="End-to-end tests" 
+      time="0.000"
+      >
+      <failure message="Cannot access 'process' before initialization" type="StageFailure">
+        Cannot access 'process' before initialization
+      </failure>
+    </testcase>
+    
+  </testsuite>
+</testsuites>

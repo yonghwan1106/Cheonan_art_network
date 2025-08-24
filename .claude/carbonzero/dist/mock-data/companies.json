@@ -1,0 +1,89 @@
+{
+  "companies": [
+    {
+      "id": "comp_samsung",
+      "name": "삼성전자",
+      "businessType": "제조업",
+      "annualElectricityUsage": 5000000,
+      "carbonReductionTarget": 50000,
+      "re100Participant": true,
+      "usagePattern": {
+        "peakHours": ["09:00", "14:00", "20:00"],
+        "baseLoad": 2000,
+        "peakLoad": 3500
+      },
+      "esgManager": {
+        "name": "김환경",
+        "email": "esg@samsung.com"
+      }
+    },
+    {
+      "id": "comp_lg",
+      "name": "LG화학",
+      "businessType": "화학",
+      "annualElectricityUsage": 3500000,
+      "carbonReductionTarget": 35000,
+      "re100Participant": true,
+      "usagePattern": {
+        "peakHours": ["08:00", "13:00", "19:00"],
+        "baseLoad": 1500,
+        "peakLoad": 2800
+      },
+      "esgManager": {
+        "name": "박지속",
+        "email": "sustainability@lg.com"
+      }
+    },
+    {
+      "id": "comp_posco",
+      "name": "포스코",
+      "businessType": "철강",
+      "annualElectricityUsage": 8000000,
+      "carbonReductionTarget": 80000,
+      "re100Participant": false,
+      "usagePattern": {
+        "peakHours": ["10:00", "15:00", "21:00"],
+        "baseLoad": 3000,
+        "peakLoad": 5500
+      },
+      "esgManager": {
+        "name": "이탄소",
+        "email": "carbon@posco.com"
+      }
+    },
+    {
+      "id": "comp_hyundai",
+      "name": "현대자동차",
+      "businessType": "자동차",
+      "annualElectricityUsage": 4200000,
+      "carbonReductionTarget": 42000,
+      "re100Participant": true,
+      "usagePattern": {
+        "peakHours": ["09:30", "14:30", "20:30"],
+        "baseLoad": 1800,
+        "peakLoad": 3200
+      },
+      "esgManager": {
+        "name": "최미래",
+        "email": "green@hyundai.com"
+      }
+    },
+    {
+      "id": "comp_sk",
+      "name": "SK하이닉스",
+      "businessType": "반도체",
+      "annualElectricityUsage": 6000000,
+      "carbonReductionTarget": 60000,
+      "re100Participant": true,
+      "usagePattern": {
+        "peakHours": ["11:00", "16:00", "22:00"],
+        "baseLoad": 2500,
+        "peakLoad": 4000
+      },
+      "esgManager": {
+        "name": "정청정",
+        "email": "clean@sk.com"
+      }
+    }
+  ]
+}

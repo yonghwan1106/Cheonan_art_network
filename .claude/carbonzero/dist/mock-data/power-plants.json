@@ -1,0 +1,96 @@
+{
+  "powerPlants": [
+    {
+      "id": "pp_boryeong_1",
+      "name": "보령화력 1호기",
+      "type": "coal",
+      "capacity": 500,
+      "location": "충남 보령시",
+      "currentOutput": 450,
+      "efficiency": 85.2,
+      "fuelMix": {
+        "coal": 0.7,
+        "lng": 0.2,
+        "ammonia": 0.1
+      },
+      "emissionFactor": 0.95,
+      "status": "operating"
+    },
+    {
+      "id": "pp_boryeong_2",
+      "name": "보령화력 2호기",
+      "type": "coal",
+      "capacity": 500,
+      "location": "충남 보령시",
+      "currentOutput": 420,
+      "efficiency": 83.8,
+      "fuelMix": {
+        "coal": 0.75,
+        "lng": 0.15,
+        "ammonia": 0.1
+      },
+      "emissionFactor": 0.98,
+      "status": "operating"
+    },
+    {
+      "id": "pp_dangjin_1",
+      "name": "당진화력 1호기",
+      "type": "coal",
+      "capacity": 580,
+      "location": "충남 당진시",
+      "currentOutput": 520,
+      "efficiency": 87.1,
+      "fuelMix": {
+        "coal": 0.65,
+        "lng": 0.25,
+        "ammonia": 0.1
+      },
+      "emissionFactor": 0.92,
+      "status": "operating"
+    },
+    {
+      "id": "pp_taean_1",
+      "name": "태안화력 1호기",
+      "type": "coal",
+      "capacity": 500,
+      "location": "충남 태안군",
+      "currentOutput": 480,
+      "efficiency": 86.3,
+      "fuelMix": {
+        "coal": 0.68,
+        "lng": 0.22,
+        "ammonia": 0.1
+      },
+      "emissionFactor": 0.94,
+      "status": "operating"
+    },
+    {
+      "id": "pp_seocheon_gas",
+      "name": "서천LNG발전소",
+      "type": "lng",
+      "capacity": 400,
+      "location": "충남 서천군",
+      "currentOutput": 350,
+      "efficiency": 58.5,
+      "fuelMix": {
+        "lng": 1.0
+      },
+      "emissionFactor": 0.35,
+      "status": "operating"
+    },
+    {
+      "id": "pp_solar_farm_1",
+      "name": "새만금 태양광단지",
+      "type": "renewable",
+      "capacity": 200,
+      "location": "전북 군산시",
+      "currentOutput": 180,
+      "efficiency": 90.0,
+      "fuelMix": {
+        "renewable": 1.0
+      },
+      "emissionFactor": 0.02,
+      "status": "operating"
+    }
+  ]
+}

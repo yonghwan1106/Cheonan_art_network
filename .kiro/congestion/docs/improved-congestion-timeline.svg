@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1600">
+  <!-- 배경 -->
+  <rect width="800" height="1600" fill="#fff8fa"/>
+  
+  <!-- 제목 부분 -->
+  <rect x="0" y="0" width="800" height="120" fill="#ff7b91" opacity="0.9"/>
+  <text x="400" y="50" font-family="Arial" font-size="32" font-weight="bold" text-anchor="middle" fill="white">개인 맞춤형 혼잡도 예측 알림 서비스</text>
+  <text x="400" y="90" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="white">하루 일과 속 활용 가이드</text>
+  <text x="400" y="115" font-family="Arial" font-size="14" text-anchor="middle" fill="white">2,000명 이상의 대중교통 이용자 데이터 기반</text>
+  
+  <!-- 중앙 타임라인 -->
+  <line x1="400" y1="150" x2="400" y2="1500" stroke="#ff7b91" stroke-width="4" stroke-dasharray="12,8"/>
+  
+  <!-- 7:00am: 아침 알람과 함께 출근 계획 -->
+  <rect x="450" y="160" width="280" height="160" rx="10" fill="#ffe2e8" stroke="#ff7b91" stroke-width="2"/>
+  <rect x="465" y="175" width="250" height="50" rx="5" fill="#ffc2d1"/>
+  <text x="590" y="210" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#ff4d6d">7:00am</text>
+  
+  <text x="590" y="250" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">아침 알람과 함께 출근 계획</text>
+  <text x="590" y="280" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">앱 알림으로 오늘의 혼잡도 확인</text>
+  
+  <circle cx="320" cy="240" r="70" fill="#fff"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZmZTJlOCIvPjxyZWN0IHg9IjMwIiB5PSIzNSIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZmY3YjkxIiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzNSIgeT0iNDAiIHdpZHRoPSIzMCIgaGVpZ2h0PSI1IiByeD0iMiIgZmlsbD0iI2ZmN2I5MSIvPjxyZWN0IHg9IjM1IiB5PSI1MCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjZmY0ZDZkIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSIyOCIgcj0iNSIgZmlsbD0iI2ZmN2I5MSIvPjxjaXJjbGUgY3g9IjQwIiBjeT0iMjgiIHI9IjMiIGZpbGw9IiNmZjdiOTEiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjI4IiByPSIzIiBmaWxsPSIjZmY3YjkxIi8+PC9zdmc+" x="270" y="190" width="100" height="100"/>
+  
+  <circle cx="150" cy="240" r="45" fill="#fff"/>
+  <text x="150" y="230" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">74%</text>
+  <text x="150" y="250" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">아침 알람 시</text>
+  <text x="150" y="265" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">바로 혼잡도 확인</text>
+  
+  <circle cx="230" cy="240" r="45" fill="#fff"/>
+  <text x="230" y="230" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">83%</text>
+  <text x="230" y="250" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">평소보다 10분</text>
+  <text x="230" y="265" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">일찍 출발 선택</text>
+  
+  <!-- 8:30am: 출근길 지하철 탑승 전 -->
+  <rect x="70" y="360" width="280" height="160" rx="10" fill="#ffe2e8" stroke="#ff7b91" stroke-width="2"/>
+  <rect x="85" y="375" width="250" height="50" rx="5" fill="#ffc2d1"/>
+  <text x="210" y="410" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#ff4d6d">8:30am</text>
+  
+  <text x="210" y="450" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">출근길 지하철 탑승 전</text>
+  <text x="210" y="480" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">실시간 혼잡도와 대체 경로 확인</text>
+  
+  <circle cx="480" cy="440" r="70" fill="#fff"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZmZTJlOCIvPjxwYXRoIGQ9Ik0zMCA1MGgxMEw1MCAzNWwxMCAxNWgxME01MCAxNXY1ME0zMCA1MHYyNWg0MHYtMjUiIHN0cm9rZT0iI2ZmNGQ2ZCIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI3MCIgcj0iNSIgZmlsbD0iI2ZmNGQ2ZCIvPjxyZWN0IHg9IjM1IiB5PSI1NSIgd2lkdGg9IjMwIiBoZWlnaHQ9IjEwIiByeD0iMyIgZmlsbD0iI2ZmYzJkMSIvPjwvc3ZnPg==" x="430" y="390" width="100" height="100"/>
+  
+  <circle cx="570" cy="410" r="45" fill="#fff"/>
+  <text x="570" y="400" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">92%</text>
+  <text x="570" y="420" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">인접 역사 간</text>
+  <text x="570" y="435" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">혼잡도 비교</text>
+  
+  <circle cx="570" cy="490" r="45" fill="#fff"/>
+  <text x="570" y="480" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">58%</text>
+  <text x="570" y="500" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">혼잡한 노선</text>
+  <text x="570" y="515" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">대체 경로 선택</text>
+  
+  <!-- 12:00pm: 점심 시간 이동 계획 -->
+  <rect x="450" y="560" width="280" height="160" rx="10" fill="#ffe2e8" stroke="#ff7b91" stroke-width="2"/>
+  <rect x="465" y="575" width="250" height="50" rx="5" fill="#ffc2d1"/>
+  <text x="590" y="610" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#ff4d6d">12:00pm</text>
+  
+  <text x="590" y="650" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">점심 시간 이동 계획</text>
+  <text x="590" y="680" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">인근 식당가 혼잡도 체크</text>
+  
+  <circle cx="320" cy="640" r="70" fill="#fff"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZmZTJlOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTUiIHI9IjIwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiNmZjRkNmQiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik01MCAzNXYxME00NSA1MGg1djEwTTU1IDUwaDUiIHN0cm9rZT0iI2ZmNGQ2ZCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1NSIgcj0iMiIgZmlsbD0iI2ZmNGQ2ZCIvPjwvc3ZnPg==" x="270" y="590" width="100" height="100"/>
+  
+  <circle cx="150" cy="620" r="45" fill="#fff"/>
+  <text x="150" y="610" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">45%</text>
+  <text x="150" y="630" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">주변 식당</text>
+  <text x="150" y="645" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">혼잡도 확인</text>
+  
+  <circle cx="150" cy="710" r="45" fill="#fff"/>
+  <text x="150" y="700" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">30%</text>
+  <text x="150" y="720" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">한적한 시간대로</text>
+  <text x="150" y="735" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">점심 시간 조정</text>
+  
+  <!-- 2:00pm: 회의 장소로 이동 -->
+  <rect x="70" y="760" width="280" height="160" rx="10" fill="#ffe2e8" stroke="#ff7b91" stroke-width="2"/>
+  <rect x="85" y="775" width="250" height="50" rx="5" fill="#ffc2d1"/>
+  <text x="210" y="810" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#ff4d6d">2:00pm</text>
+  
+  <text x="210" y="850" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">회의 장소로 이동</text>
+  <text x="210" y="880" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">건물 간 셔틀버스 혼잡도 확인</text>
+  
+  <circle cx="480" cy="840" r="70" fill="#fff"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZmZTJlOCIvPjxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjI1IiByeD0iNSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZmY0ZDZkIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIzMCIgY3k9IjY1IiByPSI3IiBmaWxsPSIjZmY3YjkxIi8+PGNpcmNsZSBjeD0iNzAiIGN5PSI2NSIgcj0iNyIgZmlsbD0iI2ZmN2I5MSIvPjxyZWN0IHg9IjIyIiB5PSI0NSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiByeD0iMiIgZmlsbD0iI2ZmYzJkMSIvPjxyZWN0IHg9IjY4IiB5PSI0NSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiByeD0iMiIgZmlsbD0iI2ZmYzJkMSIvPjwvc3ZnPg==" x="430" y="790" width="100" height="100"/>
+  
+  <circle cx="570" cy="810" r="45" fill="#fff"/>
+  <text x="570" y="800" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">49%</text>
+  <text x="570" y="820" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">공유 모빌리티</text>
+  <text x="570" y="835" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">이용 증가</text>
+  
+  <circle cx="570" cy="890" r="45" fill="#fff"/>
+  <text x="570" y="880" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">67%</text>
+  <text x="570" y="900" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">최적 경로로</text>
+  <text x="570" y="915" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">도착 시간 단축</text>
+  
+  <!-- 5:30pm: 퇴근 계획 수립 -->
+  <rect x="450" y="960" width="280" height="160" rx="10" fill="#ffe2e8" stroke="#ff7b91" stroke-width="2"/>
+  <rect x="465" y="975" width="250" height="50" rx="5" fill="#ffc2d1"/>
+  <text x="590" y="1010" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#ff4d6d">5:30pm</text>
+  
+  <text x="590" y="1050" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">퇴근 계획 수립</text>
+  <text x="590" y="1080" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">최적 퇴근 시간 추천 확인</text>
+  
+  <circle cx="320" cy="1040" r="70" fill="#fff"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZmZTJlOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZjRkNmQiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik01MCAyNXYyNWgxNSIgc3Ryb2tlPSIjZmY0ZDZkIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIzIiBmaWxsPSIjZmY0ZDZkIi8+PHBhdGggZD0iTTU1IDI1TDYwIDIwTTQ1IDI1TDQwIDIwIiBzdHJva2U9IiNmZjRkNmQiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" x="270" y="990" width="100" height="100"/>
+  
+  <circle cx="150" cy="1020" r="45" fill="#fff"/>
+  <text x="150" y="1010" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">65%</text>
+  <text x="150" y="1030" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">퇴근 시간</text>
+  <text x="150" y="1045" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">조정 결정</text>
+  
+  <circle cx="150" cy="1110" r="45" fill="#fff"/>
+  <text x="150" y="1100" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">54%</text>
+  <text x="150" y="1120" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">30분 일찍 혹은</text>
+  <text x="150" y="1135" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">늦게 퇴근</text>
+  
+  <!-- 6:30pm: 귀가 길 대중교통 이용 -->
+  <rect x="70" y="1160" width="280" height="160" rx="10" fill="#ffe2e8" stroke="#ff7b91" stroke-width="2"/>
+  <rect x="85" y="1175" width="250" height="50" rx="5" fill="#ffc2d1"/>
+  <text x="210" y="1210" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#ff4d6d">6:30pm</text>
+  
+  <text x="210" y="1250" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">귀가 길 대중교통 이용</text>
+  <text x="210" y="1280" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">실시간 좌석 정보 확인</text>
+  
+  <circle cx="480" cy="1240" r="70" fill="#fff"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZmZTJlOCIvPjxyZWN0IHg9IjMwIiB5PSIzMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iNSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjZmY0ZDZkIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIxMCIgZmlsbD0iI2ZmYzJkMSIvPjxyZWN0IHg9IjI1IiB5PSI3NSIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUiIHJ4PSIyIiBmaWxsPSIjZmY0ZDZkIi8+PC9zdmc+" x="430" y="1190" width="100" height="100"/>
+  
+  <circle cx="570" cy="1210" r="45" fill="#fff"/>
+  <text x="570" y="1200" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">78%</text>
+  <text x="570" y="1220" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">좌석 정보로</text>
+  <text x="570" y="1235" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">승차 위치 결정</text>
+  
+  <circle cx="570" cy="1290" r="45" fill="#fff"/>
+  <text x="570" y="1280" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">93%</text>
+  <text x="570" y="1300" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">귀가 시간</text>
+  <text x="570" y="1315" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">예측 정확도</text>
+  
+  <!-- 9:00pm: 다음 날 계획 및 피드백 -->
+  <rect x="450" y="1360" width="280" height="160" rx="10" fill="#ffe2e8" stroke="#ff7b91" stroke-width="2"/>
+  <rect x="465" y="1375" width="250" height="50" rx="5" fill="#ffc2d1"/>
+  <text x="590" y="1410" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#ff4d6d">9:00pm</text>
+  
+  <text x="590" y="1450" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">다음 날 계획 및 피드백</text>
+  <text x="590" y="1480" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">서비스 만족도 평가 및 의견 제출</text>
+  
+  <circle cx="320" cy="1440" r="70" fill="#fff"/>
+  <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2ZmZTJlOCIvPjxjaXJjbGUgY3g9IjM1IiBjeT0iNDAiIHI9IjUiIGZpbGw9IiNmZjRkNmQiLz48Y2lyY2xlIGN4PSI2NSIgY3k9IjQwIiByPSI1IiBmaWxsPSIjZmY0ZDZkIi8+PHBhdGggZD0iTTM1IDYwUTUwIDgwIDY1IDYwIiBzdHJva2U9IiNmZjRkNmQiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" x="270" y="1390" width="100" height="100"/>
+  
+  <circle cx="150" cy="1420" r="45" fill="#fff"/>
+  <text x="150" y="1410" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">87%</text>
+  <text x="150" y="1430" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">하루 이용 만족도</text>
+  <text x="150" y="1445" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">평가 참여</text>
+  
+  <circle cx="150" cy="1510" r="45" fill="#fff"/>
+  <text x="150" y="1500" font-family="Arial" font-size="14" text-anchor="middle" fill="#ff4d6d">34%</text>
+  <text x="150" y="1520" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">새로운 기능</text>
+  <text x="150" y="1535" font-family="Arial" font-size="12" text-anchor="middle" fill="#666">제안 참여</text>
+  
+  <!-- 하단 정보 -->
+  <rect x="0" y="1540" width="800" height="60" fill="#ff7b91" opacity="0.9"/>
+  <text x="400" y="1575" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">2025 국민행복증진 철도·대중교통·물류 아이디어 공모전</text>
+  <text x="400" y="1595" font-family="Arial" font-size="14" text-anchor="middle" fill="white">더 편리한 교통·물류 기술 아이디어 제안</text>
+</svg>

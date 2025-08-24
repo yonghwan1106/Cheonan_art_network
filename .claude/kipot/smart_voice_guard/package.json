@@ -1,0 +1,16 @@
+{
+  "name": "smart_voice_guard",
+  "version": "1.0.0",
+  "description": "AI 기반 사기 전화 차단 시스템 프로토타입",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

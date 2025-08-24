@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Smart Voice Guard 프론트엔드
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://api:8000
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # Smart Voice Guard API 서버
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      - ./data:/app/data
+    environment:
+      - DEBUG=true
+      - DATABASE_URL=postgresql://user:password@db:5432/smart_voice_guard
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # PostgreSQL 데이터베이스 (나중에 사용)
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: smart_voice_guard
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  # Redis (캐싱용, 나중에 사용)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

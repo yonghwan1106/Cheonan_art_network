@@ -1,0 +1,246 @@
+{
+  "predictions": [
+    {
+      "timestamp": "2025-07-15T14:00:00Z",
+      "plantId": "pp_boryeong_1",
+      "hourlyPredictions": [
+        {
+          "hour": 15,
+          "emission": 1250.5,
+          "carbonIntensity": 0.85,
+          "confidence": 0.95,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 16,
+          "emission": 950.2,
+          "carbonIntensity": 0.65,
+          "confidence": 0.92,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 17,
+          "emission": 1100.8,
+          "carbonIntensity": 0.75,
+          "confidence": 0.88,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 18,
+          "emission": 800.3,
+          "carbonIntensity": 0.55,
+          "confidence": 0.91,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 19,
+          "emission": 1350.7,
+          "carbonIntensity": 0.92,
+          "confidence": 0.94,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 20,
+          "emission": 1150.4,
+          "carbonIntensity": 0.78,
+          "confidence": 0.89,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 21,
+          "emission": 750.6,
+          "carbonIntensity": 0.51,
+          "confidence": 0.93,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 22,
+          "emission": 650.2,
+          "carbonIntensity": 0.44,
+          "confidence": 0.95,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 23,
+          "emission": 580.8,
+          "carbonIntensity": 0.39,
+          "confidence": 0.97,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 0,
+          "emission": 520.5,
+          "carbonIntensity": 0.35,
+          "confidence": 0.98,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 1,
+          "emission": 480.3,
+          "carbonIntensity": 0.32,
+          "confidence": 0.99,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 2,
+          "emission": 450.7,
+          "carbonIntensity": 0.30,
+          "confidence": 0.99,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 3,
+          "emission": 430.2,
+          "carbonIntensity": 0.29,
+          "confidence": 0.98,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 4,
+          "emission": 460.8,
+          "carbonIntensity": 0.31,
+          "confidence": 0.97,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 5,
+          "emission": 520.4,
+          "carbonIntensity": 0.35,
+          "confidence": 0.96,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 6,
+          "emission": 680.9,
+          "carbonIntensity": 0.46,
+          "confidence": 0.94,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 7,
+          "emission": 850.6,
+          "carbonIntensity": 0.58,
+          "confidence": 0.91,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 8,
+          "emission": 1050.3,
+          "carbonIntensity": 0.71,
+          "confidence": 0.89,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 9,
+          "emission": 1250.8,
+          "carbonIntensity": 0.85,
+          "confidence": 0.87,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 10,
+          "emission": 1400.5,
+          "carbonIntensity": 0.95,
+          "confidence": 0.86,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 11,
+          "emission": 1480.2,
+          "carbonIntensity": 1.01,
+          "confidence": 0.85,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 12,
+          "emission": 1520.7,
+          "carbonIntensity": 1.03,
+          "confidence": 0.84,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 13,
+          "emission": 1450.3,
+          "carbonIntensity": 0.98,
+          "confidence": 0.86,
+          "isCleanPeriod": false
+        },
+        {
+          "hour": 14,
+          "emission": 1380.9,
+          "carbonIntensity": 0.94,
+          "confidence": 0.88,
+          "isCleanPeriod": false
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-07-15T14:00:00Z",
+      "plantId": "pp_seocheon_gas",
+      "hourlyPredictions": [
+        {
+          "hour": 15,
+          "emission": 420.3,
+          "carbonIntensity": 0.35,
+          "confidence": 0.97,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 16,
+          "emission": 380.5,
+          "carbonIntensity": 0.32,
+          "confidence": 0.96,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 17,
+          "emission": 410.8,
+          "carbonIntensity": 0.34,
+          "confidence": 0.95,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 18,
+          "emission": 350.7,
+          "carbonIntensity": 0.29,
+          "confidence": 0.98,
+          "isCleanPeriod": true
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-07-15T14:00:00Z",
+      "plantId": "pp_solar_farm_1",
+      "hourlyPredictions": [
+        {
+          "hour": 15,
+          "emission": 15.2,
+          "carbonIntensity": 0.02,
+          "confidence": 0.99,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 16,
+          "emission": 12.8,
+          "carbonIntensity": 0.02,
+          "confidence": 0.98,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 17,
+          "emission": 8.5,
+          "carbonIntensity": 0.01,
+          "confidence": 0.97,
+          "isCleanPeriod": true
+        },
+        {
+          "hour": 18,
+          "emission": 3.2,
+          "carbonIntensity": 0.00,
+          "confidence": 0.95,
+          "isCleanPeriod": true
+        }
+      ]
+    }
+  ]
+}

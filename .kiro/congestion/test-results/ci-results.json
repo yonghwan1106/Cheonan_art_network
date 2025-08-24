@@ -1,0 +1,79 @@
+{
+  "startTime": 1754620077092,
+  "stages": {
+    "lint": {
+      "name": "lint",
+      "description": "Code linting and formatting",
+      "startTime": 1754620077093,
+      "attempts": 3,
+      "success": false,
+      "output": [],
+      "error": "Cannot access 'process' before initialization",
+      "endTime": 1754620077094,
+      "duration": 1
+    },
+    "type-check": {
+      "name": "type-check",
+      "description": "TypeScript type checking",
+      "startTime": 1754620077094,
+      "attempts": 3,
+      "success": false,
+      "output": [],
+      "error": "Cannot access 'process' before initialization",
+      "endTime": 1754620077094,
+      "duration": 0
+    },
+    "unit": {
+      "name": "unit",
+      "description": "Unit tests",
+      "startTime": 1754620077094,
+      "attempts": 3,
+      "success": false,
+      "output": [],
+      "error": "Cannot access 'process' before initialization",
+      "endTime": 1754620077094,
+      "duration": 0
+    },
+    "integration": {
+      "name": "integration",
+      "description": "Integration tests",
+      "startTime": 1754620077094,
+      "attempts": 3,
+      "success": false,
+      "output": [],
+      "error": "Cannot access 'process' before initialization",
+      "endTime": 1754620077094,
+      "duration": 0
+    },
+    "performance": {
+      "name": "performance",
+      "description": "Performance tests",
+      "startTime": 1754620077095,
+      "attempts": 3,
+      "success": false,
+      "output": [],
+      "error": "Cannot access 'process' before initialization",
+      "endTime": 1754620077095,
+      "duration": 0
+    },
+    "e2e": {
+      "name": "e2e",
+      "description": "End-to-end tests",
+      "startTime": 1754620077095,
+      "attempts": 3,
+      "success": false,
+      "output": [],
+      "error": "Cannot access 'process' before initialization",
+      "endTime": 1754620077095,
+      "duration": 0
+    }
+  },
+  "summary": {
+    "total": 6,
+    "passed": 0,
+    "failed": 6,
+    "skipped": 0
+  },
+  "endTime": 1754620077095,
+  "totalDuration": 3
+}

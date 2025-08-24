@@ -1,0 +1,6 @@
+{
+  "name": "smart-transit-predictor",
+  "version": "1.0.0",
+  "description": "스마트 교통 예측 시스템 - 테스트",
+  "main": "index.html"
+}
