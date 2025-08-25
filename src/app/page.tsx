@@ -109,7 +109,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fadeIn delay-300">
               <Link href={currentSlideData.primaryButton.href}>
-                <Button size="lg" className="bg-white text-gray-800 hover:bg-gray-100 hover:text-gray-900 font-semibold transform hover:scale-105 transition-all duration-200">
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-gray-800 font-semibold transform hover:scale-105 transition-all duration-200">
                   {currentSlideData.primaryButton.text}
                 </Button>
               </Link>
