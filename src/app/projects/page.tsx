@@ -13,6 +13,8 @@ export default function ProjectsPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [budgetFilter, setBudgetFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const getStatusBadge = (status: string) => {
     const statusMap: { [key: string]: { bg: string; text: string; label: string } } = {
@@ -49,7 +51,20 @@ export default function ProjectsPage() {
 
   const handleApplyFilters = () => {
     // Filters are applied automatically through filteredProjects
+    setCurrentPage(1); // Reset to first page when filters change
     console.log('Filters applied:', { statusFilter, categoryFilter, budgetFilter });
+  };
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentProjects = filteredProjects.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Scroll to top of projects section
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -82,7 +97,10 @@ export default function ProjectsPage() {
               <select 
                 className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
               >
                 <option value="all">모든 상태</option>
                 <option value="recruiting">모집중</option>
@@ -93,7 +111,10 @@ export default function ProjectsPage() {
               <select 
                 className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value={categoryFilter}
-                onChange={(e) => setCategoryFilter(e.target.value)}
+                onChange={(e) => {
+                  setCategoryFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
               >
                 <option value="all">모든 장르</option>
                 <option value="전시">전시</option>
@@ -104,7 +125,10 @@ export default function ProjectsPage() {
               <select 
                 className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value={budgetFilter}
-                onChange={(e) => setBudgetFilter(e.target.value)}
+                onChange={(e) => {
+                  setBudgetFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
               >
                 <option value="all">예산 범위</option>
                 <option value="low">1천만원 이하</option>
@@ -125,7 +149,7 @@ export default function ProjectsPage() {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {filteredProjects.map((project) => {
+          {currentProjects.map((project) => {
             const curator = getCurator(project.curatorId);
             
             return (
@@ -236,19 +260,40 @@ export default function ProjectsPage() {
         </div>
 
         {/* Pagination */}
-        <div className="mt-12 flex justify-center">
-          <div className="flex space-x-2">
-            <Button variant="outline" size="sm" disabled>
-              이전
-            </Button>
-            <Button size="sm">1</Button>
-            <Button variant="outline" size="sm">2</Button>
-            <Button variant="outline" size="sm">3</Button>
-            <Button variant="outline" size="sm">
-              다음
-            </Button>
+        {totalPages > 1 && (
+          <div className="mt-12 flex justify-center">
+            <div className="flex space-x-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                disabled={currentPage === 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                이전
+              </Button>
+              
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <Button 
+                  key={page}
+                  variant={currentPage === page ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </Button>
+              ))}
+              
+              <Button 
+                variant="outline" 
+                size="sm" 
+                disabled={currentPage === totalPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                다음
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Layout>
   );
