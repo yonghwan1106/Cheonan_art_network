@@ -17,7 +17,10 @@ export default function HomePage() {
       subtitle: "AI 기반 예술가-기획자 매칭 플랫폼",
       description: "천안의 재능 있는 예술가들과 전문 기획자들을 똑똑하게 연결하여 최적의 문화예술 프로젝트를 만들어갑니다.",
       backgroundStyle: {
-        background: 'linear-gradient(to bottom right, #2563eb, #7c3aed, #3730a3)'
+        backgroundImage: 'url("https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
       },
       primaryButton: { text: "지금 시작하기", href: "/register" },
       secondaryButton: { text: "프로젝트 둘러보기", href: "/projects" }
@@ -28,7 +31,10 @@ export default function HomePage() {
       subtitle: "완벽한 협업 파트너를 찾아드립니다",
       description: "작품 스타일, 경력, 예산을 종합 분석하여 95%의 높은 매칭 성공률로 최적의 예술가와 기획자를 연결합니다.",
       backgroundStyle: {
-        background: 'linear-gradient(to bottom right, #059669, #0f766e, #155e75)'
+        backgroundImage: 'url("https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
       },
       primaryButton: { text: "AI 매칭 체험하기", href: "/matching" },
       secondaryButton: { text: "성공 사례 보기", href: "/projects" }
@@ -39,7 +45,10 @@ export default function HomePage() {
       subtitle: "신뢰할 수 있는 예술 파트너십",
       description: "엄선된 150명의 예술가와 50명의 전문 기획자들이 200개 이상의 성공적인 문화예술 프로젝트를 함께 만들어왔습니다.",
       backgroundStyle: {
-        background: 'linear-gradient(to bottom right, #dc2626, #be185d, #7c3aed)'
+        backgroundImage: 'url("https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
       },
       primaryButton: { text: "전문가 둘러보기", href: "/projects" },
       secondaryButton: { text: "성과 확인하기", href: "/projects" }
@@ -76,9 +85,9 @@ export default function HomePage() {
         className="relative overflow-hidden text-white transition-all duration-1000 ease-in-out"
         style={currentSlideData.backgroundStyle}
       >
-        {/* Background Pattern Overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-10">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+        {/* Background Overlay for text readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-50">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40"></div>
         </div>
 
         {/* Navigation Arrows */}
