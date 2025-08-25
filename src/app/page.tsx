@@ -1,41 +1,132 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Layout from '../components/layout/Layout';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
-import { Palette, Users, Zap, Award, ArrowRight } from 'lucide-react';
+import { Palette, Users, Zap, Award, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function HomePage() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const heroSlides = [
+    {
+      id: 1,
+      title: "천안아트네트워크",
+      subtitle: "AI 기반 예술가-기획자 매칭 플랫폼",
+      description: "천안의 재능 있는 예술가들과 전문 기획자들을 똑똑하게 연결하여 최적의 문화예술 프로젝트를 만들어갑니다.",
+      background: "bg-gradient-to-br from-blue-600 via-purple-700 to-indigo-800",
+      primaryButton: { text: "지금 시작하기", href: "/register" },
+      secondaryButton: { text: "프로젝트 둘러보기", href: "/projects" }
+    },
+    {
+      id: 2,
+      title: "AI 매칭 시스템",
+      subtitle: "완벽한 협업 파트너를 찾아드립니다",
+      description: "작품 스타일, 경력, 예산을 종합 분석하여 95%의 높은 매칭 성공률로 최적의 예술가와 기획자를 연결합니다.",
+      background: "bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800",
+      primaryButton: { text: "AI 매칭 체험하기", href: "/matching" },
+      secondaryButton: { text: "성공 사례 보기", href: "/projects" }
+    },
+    {
+      id: 3,
+      title: "검증된 전문가 네트워크",
+      subtitle: "신뢰할 수 있는 예술 파트너십",
+      description: "엄선된 150명의 예술가와 50명의 전문 기획자들이 200개 이상의 성공적인 문화예술 프로젝트를 함께 만들어왔습니다.",
+      background: "bg-gradient-to-br from-rose-600 via-pink-700 to-purple-800",
+      primaryButton: { text: "전문가 둘러보기", href: "/projects" },
+      secondaryButton: { text: "성과 확인하기", href: "/projects" }
+    }
+  ];
+
+  // Auto-slide functionality
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  const currentSlideData = heroSlides[currentSlide];
+
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      {/* Hero Section with Slider */}
+      <section className={`relative overflow-hidden text-white transition-all duration-1000 ease-in-out ${currentSlideData.background}`}>
+        {/* Background Pattern Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-10">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+        </div>
+
+        {/* Navigation Arrows */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-200"
+        >
+          <ChevronLeft className="w-6 h-6 text-white" />
+        </button>
+        
+        <button
+          onClick={nextSlide}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-200"
+        >
+          <ChevronRight className="w-6 h-6 text-white" />
+        </button>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              천안아트네트워크
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fadeIn">
+              {currentSlideData.title}
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              AI 기반 예술가-기획자 매칭 플랫폼
+            <p className="text-xl md:text-2xl mb-8 text-white/90 animate-fadeIn delay-100">
+              {currentSlideData.subtitle}
             </p>
-            <p className="text-lg mb-12 text-blue-200 max-w-3xl mx-auto">
-              천안의 재능 있는 예술가들과 전문 기획자들을 똑똑하게 연결하여
-              최적의 문화예술 프로젝트를 만들어갑니다.
+            <p className="text-lg mb-12 text-white/80 max-w-3xl mx-auto animate-fadeIn delay-200">
+              {currentSlideData.description}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register">
-                <Button size="lg" className="bg-white text-blue-800 hover:bg-gray-100 hover:text-blue-900 font-semibold">
-                  지금 시작하기
+            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fadeIn delay-300">
+              <Link href={currentSlideData.primaryButton.href}>
+                <Button size="lg" className="bg-white text-gray-800 hover:bg-gray-100 hover:text-gray-900 font-semibold transform hover:scale-105 transition-all duration-200">
+                  {currentSlideData.primaryButton.text}
                 </Button>
               </Link>
-              <Link href="/projects">
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
-                  프로젝트 둘러보기
+              <Link href={currentSlideData.secondaryButton.href}>
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-gray-800 transform hover:scale-105 transition-all duration-200">
+                  {currentSlideData.secondaryButton.text}
                 </Button>
               </Link>
             </div>
+          </div>
+        </div>
+
+        {/* Slide Indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="flex space-x-3">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentSlide 
+                    ? 'bg-white scale-125' 
+                    : 'bg-white/50 hover:bg-white/75'
+                }`}
+              />
+            ))}
           </div>
         </div>
       </section>
