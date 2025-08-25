@@ -16,7 +16,9 @@ export default function HomePage() {
       title: "천안아트네트워크",
       subtitle: "AI 기반 예술가-기획자 매칭 플랫폼",
       description: "천안의 재능 있는 예술가들과 전문 기획자들을 똑똑하게 연결하여 최적의 문화예술 프로젝트를 만들어갑니다.",
-      background: "bg-gradient-to-br from-blue-600 via-purple-700 to-indigo-800",
+      backgroundStyle: {
+        background: 'linear-gradient(to bottom right, #2563eb, #7c3aed, #3730a3)'
+      },
       primaryButton: { text: "지금 시작하기", href: "/register" },
       secondaryButton: { text: "프로젝트 둘러보기", href: "/projects" }
     },
@@ -25,7 +27,9 @@ export default function HomePage() {
       title: "AI 매칭 시스템",
       subtitle: "완벽한 협업 파트너를 찾아드립니다",
       description: "작품 스타일, 경력, 예산을 종합 분석하여 95%의 높은 매칭 성공률로 최적의 예술가와 기획자를 연결합니다.",
-      background: "bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800",
+      backgroundStyle: {
+        background: 'linear-gradient(to bottom right, #059669, #0f766e, #155e75)'
+      },
       primaryButton: { text: "AI 매칭 체험하기", href: "/matching" },
       secondaryButton: { text: "성공 사례 보기", href: "/projects" }
     },
@@ -34,7 +38,9 @@ export default function HomePage() {
       title: "검증된 전문가 네트워크",
       subtitle: "신뢰할 수 있는 예술 파트너십",
       description: "엄선된 150명의 예술가와 50명의 전문 기획자들이 200개 이상의 성공적인 문화예술 프로젝트를 함께 만들어왔습니다.",
-      background: "bg-gradient-to-br from-rose-600 via-pink-700 to-purple-800",
+      backgroundStyle: {
+        background: 'linear-gradient(to bottom right, #dc2626, #be185d, #7c3aed)'
+      },
       primaryButton: { text: "전문가 둘러보기", href: "/projects" },
       secondaryButton: { text: "성과 확인하기", href: "/projects" }
     }
@@ -66,7 +72,10 @@ export default function HomePage() {
   return (
     <Layout>
       {/* Hero Section with Slider */}
-      <section className={`relative overflow-hidden text-white transition-all duration-1000 ease-in-out ${currentSlideData.background}`}>
+      <section 
+        className="relative overflow-hidden text-white transition-all duration-1000 ease-in-out"
+        style={currentSlideData.backgroundStyle}
+      >
         {/* Background Pattern Overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-10">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>

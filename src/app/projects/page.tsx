@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
 import Layout from '../../components/layout/Layout';
 import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
@@ -9,6 +10,10 @@ import { mockCurators } from '../../data/mockCurators';
 import { Calendar, MapPin, Users, DollarSign, Clock, Target } from 'lucide-react';
 
 export default function ProjectsPage() {
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [budgetFilter, setBudgetFilter] = useState('all');
+
   const getStatusBadge = (status: string) => {
     const statusMap: { [key: string]: { bg: string; text: string; label: string } } = {
       recruiting: { bg: 'bg-green-100', text: 'text-green-700', label: '모집중' },
@@ -30,6 +35,23 @@ export default function ProjectsPage() {
     return mockCurators.find(c => c.id === curatorId);
   };
 
+  // Filter projects based on selected filters
+  const filteredProjects = mockProjects.filter(project => {
+    const statusMatch = statusFilter === 'all' || project.status === statusFilter;
+    const categoryMatch = categoryFilter === 'all' || project.categories.includes(categoryFilter);
+    const budgetMatch = budgetFilter === 'all' || 
+      (budgetFilter === 'low' && project.budget.max <= 100000000) ||
+      (budgetFilter === 'medium' && project.budget.min >= 100000000 && project.budget.max <= 500000000) ||
+      (budgetFilter === 'high' && project.budget.min >= 500000000);
+    
+    return statusMatch && categoryMatch && budgetMatch;
+  });
+
+  const handleApplyFilters = () => {
+    // Filters are applied automatically through filteredProjects
+    console.log('Filters applied:', { statusFilter, categoryFilter, budgetFilter });
+  };
+
   return (
     <Layout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -47,34 +69,53 @@ export default function ProjectsPage() {
         <Card className="mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
             <div className="flex flex-wrap gap-3">
-              <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <option>모든 상태</option>
-                <option>모집중</option>
-                <option>기획중</option>
-                <option>예정</option>
+              <select 
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="all">모든 상태</option>
+                <option value="recruiting">모집중</option>
+                <option value="planning">기획중</option>
+                <option value="upcoming">예정</option>
+                <option value="ongoing">진행중</option>
               </select>
-              <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <option>모든 장르</option>
-                <option>전시</option>
-                <option>공연</option>
-                <option>커뮤니티 아트</option>
+              <select 
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+              >
+                <option value="all">모든 장르</option>
+                <option value="전시">전시</option>
+                <option value="공연">공연</option>
+                <option value="커뮤니티 아트">커뮤니티 아트</option>
+                <option value="워크숍">워크숍</option>
               </select>
-              <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <option>예산 범위</option>
-                <option>1천만원 이하</option>
-                <option>1천만원 ~ 5천만원</option>
-                <option>5천만원 이상</option>
+              <select 
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={budgetFilter}
+                onChange={(e) => setBudgetFilter(e.target.value)}
+              >
+                <option value="all">예산 범위</option>
+                <option value="low">1천만원 이하</option>
+                <option value="medium">1천만원 ~ 5천만원</option>
+                <option value="high">5천만원 이상</option>
               </select>
             </div>
-            <Button size="sm">
-              필터 적용
-            </Button>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-600">
+                {filteredProjects.length}개의 프로젝트
+              </span>
+              <Button size="sm" onClick={handleApplyFilters}>
+                필터 적용
+              </Button>
+            </div>
           </div>
         </Card>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {mockProjects.map((project) => {
+          {filteredProjects.map((project) => {
             const curator = getCurator(project.curatorId);
             
             return (
@@ -168,12 +209,16 @@ export default function ProjectsPage() {
 
                 {/* Action Buttons */}
                 <div className="flex space-x-3">
-                  <Button className="flex-1" size="sm">
-                    상세보기
-                  </Button>
-                  <Button variant="outline" className="flex-1" size="sm">
-                    AI 매칭 보기
-                  </Button>
+                  <Link href={`/projects/${project.id}`}>
+                    <Button className="flex-1" size="sm">
+                      상세보기
+                    </Button>
+                  </Link>
+                  <Link href={`/matching?projectId=${project.id}`}>
+                    <Button variant="outline" className="flex-1" size="sm">
+                      AI 매칭 보기
+                    </Button>
+                  </Link>
                 </div>
               </Card>
             );
