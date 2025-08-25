@@ -126,6 +126,23 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Competition Notice */}
+        <div className="border-t border-gray-800 py-6">
+          <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 mb-6">
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">🏆</span>
+              </div>
+              <span className="text-blue-200 font-medium text-center">
+                2025 문화예술 아이디어 공모전 출품작
+              </span>
+              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">🏆</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 하단 정보 */}
         <div className="border-t border-gray-800 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
