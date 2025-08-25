@@ -104,6 +104,16 @@ export default function MatchingPage() {
               <div className="mt-3 text-sm text-blue-600">
                 현재 AI 알고리즘으로 관람객 데이터를 기반으로 분석
               </div>
+              
+              {/* Mock Data Notice */}
+              <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                <div className="flex items-center space-x-2">
+                  <span className="text-amber-600 text-sm">ℹ️</span>
+                  <span className="text-amber-700 text-sm font-medium">
+                    현재 표시되는 데이터들은 시연을 위한 가상 데이터입니다.
+                  </span>
+                </div>
+              </div>
             </div>
             <Button 
               onClick={handleRefreshResults} 

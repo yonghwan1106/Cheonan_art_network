@@ -60,9 +60,19 @@ export default function ProjectsPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             문화예술 프로젝트
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 mb-4">
             천안 지역의 다양한 문화예술 프로젝트에 참여해보세요.
           </p>
+          
+          {/* Mock Data Notice */}
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
+            <div className="flex items-center space-x-2">
+              <span className="text-amber-600 text-sm">ℹ️</span>
+              <span className="text-amber-700 text-sm font-medium">
+                현재 표시되는 프로젝트들은 시연을 위한 가상 데이터입니다.
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Filters */}

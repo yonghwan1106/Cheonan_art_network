@@ -128,6 +128,16 @@ export default function ProfilePage() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Mock Data Notice */}
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6">
+            <div className="flex items-center space-x-2">
+              <span className="text-amber-600 text-sm">ℹ️</span>
+              <span className="text-amber-700 text-sm font-medium">
+                현재 표시되는 프로필 정보는 시연을 위한 가상 데이터입니다.
+              </span>
+            </div>
+          </div>
+          
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* 메인 콘텐츠 */}
             <div className="lg:col-span-2 space-y-8">
